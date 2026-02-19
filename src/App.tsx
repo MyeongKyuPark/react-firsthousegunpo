@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react'
+import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 import './App.css'
 
-import heroImage from './assets/Heroimage.jpg'
+// Swiper
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Pagination, EffectFade } from 'swiper/modules'
+
 import premiumOutside from './assets/premium_outside.jpg'
 import premiumInside from './assets/premium_inside.jpg'
 import deluxeOutside from './assets/deluxe_outside.jpg'
@@ -16,7 +20,17 @@ import hallway from './assets/hallway.png'
 import security from './assets/security.png'
 import cinema from './assets/cinema.png'
 
+import InquiryPage from './pages/InquiryPage'
+import FaqPage from './pages/FaqPage'
+
 const NAVER_TALK = 'https://talk.naver.com/wrrrpbm?frm=pblog&ref=https%3A%2F%2Fblog.naver.com%2Ffirsthousegunpo%2F224104118423#nafullscreen'
+
+const heroSlides = [
+  { img: premiumOutside, label: '프리미엄 외창형' },
+  { img: deluxeOutside, label: '디럭스 외창형' },
+  { img: standardOutside, label: '스탠다드 외창형' },
+  { img: studyOutside, label: '스터디 외창형' },
+]
 
 interface ViewData {
   img: string
@@ -165,6 +179,7 @@ const nearby = [
 function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -173,17 +188,25 @@ function Header() {
   }, [])
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
     setMenuOpen(false)
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      navigate('/')
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
+    }
   }
 
   return (
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-inner">
-        <div className="logo" onClick={() => scrollTo('hero')}>
+        <Link to="/" className="logo" style={{ textDecoration: 'none' }}>
           <span className="logo-first">처음</span>하우스
           <span className="logo-sub">군포역점</span>
-        </div>
+        </Link>
 
         <button
           className={`hamburger ${menuOpen ? 'open' : ''}`}
@@ -198,8 +221,14 @@ function Header() {
           <button onClick={() => scrollTo('facilities')}>Facilities</button>
           <button onClick={() => scrollTo('security')}>Security</button>
           <button onClick={() => scrollTo('location')}>Location</button>
+          <Link to="/inquiry" className="nav-link" onClick={() => setMenuOpen(false)}>
+            입실문의
+          </Link>
+          <Link to="/faq" className="nav-link" onClick={() => setMenuOpen(false)}>
+            FAQ
+          </Link>
           <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer" className="nav-cta">
-            입실 문의
+            네이버 톡톡
           </a>
         </nav>
       </div>
@@ -207,11 +236,24 @@ function Header() {
   )
 }
 
-/* ─────────── Hero ─────────── */
+/* ─────────── Hero (Swiper) ─────────── */
 function Hero() {
   return (
     <section id="hero" className="hero">
-      <img src={heroImage} alt="처음하우스 군포역점" className="hero-bg" />
+      <Swiper
+        modules={[Autoplay, Pagination, EffectFade]}
+        effect="fade"
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
+        loop={true}
+        className="hero-swiper"
+      >
+        {heroSlides.map((slide) => (
+          <SwiperSlide key={slide.label}>
+            <img src={slide.img} alt={slide.label} className="hero-bg" />
+          </SwiperSlide>
+        ))}
+      </Swiper>
       <div className="hero-overlay" />
       <div className="hero-content">
         <span className="hero-badge">2030 여성 전용 프리미엄</span>
@@ -236,6 +278,36 @@ function Hero() {
         <div className="scroll-arrow" />
       </div>
     </section>
+  )
+}
+
+/* ─────────── Contact Bar ─────────── */
+function ContactBar() {
+  return (
+    <div className="contact-bar">
+      <a href="tel:0507-1492-5963" className="contact-bar-item">
+        <span className="contact-bar-icon">📞</span>
+        <span className="contact-bar-text">전화 문의</span>
+      </a>
+      <a
+        href="https://open.kakao.com/me/firsthousegunpo"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="contact-bar-item"
+      >
+        <span className="contact-bar-icon">💛</span>
+        <span className="contact-bar-text">카카오플러스친구</span>
+      </a>
+      <a
+        href="https://naver.me/xtgBWNNn"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="contact-bar-item"
+      >
+        <span className="contact-bar-icon">🗺</span>
+        <span className="contact-bar-text">네이버지도</span>
+      </a>
+    </div>
   )
 }
 
@@ -515,6 +587,10 @@ function Footer() {
         <div className="footer-links">
           <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer">네이버 톡톡 문의</a>
           <span>|</span>
+          <Link to="/inquiry">입실문의</Link>
+          <span>|</span>
+          <Link to="/faq">FAQ</Link>
+          <span>|</span>
           <a href="https://map.naver.com/p/entry/place/1846291527" target="_blank" rel="noopener noreferrer">네이버 지도</a>
         </div>
         <p className="footer-copy">© 2025 처음하우스 군포역점. All rights reserved.</p>
@@ -523,17 +599,31 @@ function Footer() {
   )
 }
 
-/* ─────────── App ─────────── */
-function App() {
+/* ─────────── Main Page ─────────── */
+function MainPage() {
   return (
-    <div className="app">
-      <Header />
+    <>
       <Hero />
+      <ContactBar />
       <Rooms />
       <UtilityBanner />
       <Facilities />
       <Security />
       <Location />
+    </>
+  )
+}
+
+/* ─────────── App ─────────── */
+function App() {
+  return (
+    <div className="app">
+      <Header />
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/inquiry" element={<InquiryPage />} />
+        <Route path="/faq" element={<FaqPage />} />
+      </Routes>
       <Footer />
     </div>
   )
