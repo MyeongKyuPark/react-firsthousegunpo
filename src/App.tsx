@@ -55,7 +55,7 @@ const rooms: Room[] = [
     name: 'Premium',
     label: '프리미엄',
     badge: 'BEST',
-    color: '#FF6B9D',
+    color: '#FF7E67',
     views: {
       outside: {
         img: premiumOutside,

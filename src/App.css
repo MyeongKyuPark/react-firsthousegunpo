@@ -5,14 +5,14 @@
 
 /* ===== VARIABLES ===== */
 :root {
-  --primary: #FF6B9D;
+  --primary: #FF7E67;
   --secondary: #FFE5E5;
   --accent: #FF9999;
   --dark: #2D3748;
   --light: #F7FAFC;
   --white: #ffffff;
-  --shadow: 0 4px 24px rgba(255, 107, 157, 0.12);
-  --shadow-hover: 0 8px 40px rgba(255, 107, 157, 0.25);
+  --shadow: 0 4px 24px rgba(255, 126, 103, 0.12);
+  --shadow-hover: 0 8px 40px rgba(255, 126, 103, 0.25);
   --radius: 16px;
   --transition: all 0.3s ease;
 }
@@ -120,8 +120,8 @@ body {
 }
 
 .nav-cta {
-  background: var(--primary) !important;
-  color: var(--white) !important;
+  background: #FEE500 !important;
+  color: #3C1E1E !important;
   padding: 10px 20px;
   border-radius: 50px;
   font-size: 0.9rem;
@@ -133,9 +133,10 @@ body {
 }
 
 .nav-cta:hover {
-  background: #e85d8b !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+  background: #FEE500 !important;
+  opacity: 0.9;
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(254, 229, 0, 0.4);
 }
 
 .hamburger {
@@ -231,8 +232,8 @@ body {
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(45, 55, 72, 0.72) 0%,
-    rgba(255, 107, 157, 0.35) 100%
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.2) 100%
   );
   z-index: 1;
   pointer-events: none;
@@ -696,7 +697,7 @@ body {
 .facility-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(255, 107, 157, 0.85), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
   opacity: 0;
   transition: var(--transition);
   display: flex;
