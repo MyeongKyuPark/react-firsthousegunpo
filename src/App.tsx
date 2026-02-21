@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 import './App.css'
 
@@ -6,19 +6,36 @@ import './App.css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination, EffectFade } from 'swiper/modules'
 
-import premiumOutside from './assets/premium_outside.jpg'
-import premiumInside from './assets/premium_inside.jpg'
-import deluxeOutside from './assets/deluxe_outside.jpg'
-import deluxeInside from './assets/deluxe_inside.jpg'
-import standardOutside from './assets/standard_outside.jpg'
-import standardInside from './assets/standard_inside.jpg'
-import studyOutside from './assets/study_outside.jpg'
-import studyInside from './assets/study_inside.jpg'
-import kitchen from './assets/kitchen.jpg'
-import shower from './assets/shower.jpg'
-import hallway from './assets/hallway.png'
-import security from './assets/security.png'
-import cinema from './assets/cinema.png'
+// Hero slider
+import heroSlide1 from './assets/hero_slider/main.jpg'
+import heroSlide2 from './assets/hero_slider/main2_coffee.jpg'
+import heroSlide3 from './assets/hero_slider/main_clothes.jpg'
+import heroSlide4 from './assets/hero_slider/main_eating.png'
+
+// Rooms – premium
+import premiumOutside from './assets/rooms/premium/outside/outside.jpg'
+import premiumInside from './assets/rooms/premium/inside/inside.jpg'
+
+// Rooms – deluxe
+import deluxeOutside from './assets/rooms/deluxe/outside/outside.jpg'
+import deluxeInside from './assets/rooms/deluxe/inside/inside.jpg'
+
+// Rooms – standard
+import standardOutside from './assets/rooms/standard/outside/outside.jpg'
+import standardInside from './assets/rooms/standard/inside/inside.jpg'
+
+// Rooms – study
+import studyOutside from './assets/rooms/study/outside/outside.jpg'
+import studyInside from './assets/rooms/study/inside/inside.jpg'
+
+// Facilities
+import kitchen from './assets/facilities/kitchen.jpg'
+import shower from './assets/facilities/shower.jpg'
+import hallway from './assets/facilities/hallway.png'
+import cinema from './assets/facilities/cinema.png'
+
+// Security
+import security from './assets/security/security.png'
 
 import InquiryPage from './pages/InquiryPage'
 import FaqPage from './pages/FaqPage'
@@ -26,10 +43,10 @@ import FaqPage from './pages/FaqPage'
 const NAVER_TALK = 'https://talk.naver.com/wrrrpbm?frm=pblog&ref=https%3A%2F%2Fblog.naver.com%2Ffirsthousegunpo%2F224104118423#nafullscreen'
 
 const heroSlides = [
-  { img: premiumOutside, label: '프리미엄 외창형' },
-  { img: deluxeOutside, label: '디럭스 외창형' },
-  { img: standardOutside, label: '스탠다드 외창형' },
-  { img: studyOutside, label: '스터디 외창형' },
+  { img: heroSlide1, label: '메인 1' },
+  { img: heroSlide2, label: '메인 2' },
+  { img: heroSlide3, label: '메인 3' },
+  { img: heroSlide4, label: '메인 4' },
 ]
 
 interface ViewData {
@@ -311,54 +328,36 @@ function ContactBar() {
   )
 }
 
-/* ─────────── Room Card ─────────── */
-function RoomCard({ room }: { room: Room }) {
-  const [view, setView] = useState<'outside' | 'inside'>('outside')
-  const current = room.views[view]
-
+/* ─────────── Room View Card ─────────── */
+function RoomViewCard({ room, view }: { room: Room; view: 'outside' | 'inside' }) {
+  const data = room.views[view]
   return (
     <div className="room-card">
-      {room.badge && (
-        <div className="room-badge" style={{ background: room.color }}>
-          {room.badge}
-        </div>
-      )}
-
-      <div className="room-image-wrap">
-        <img src={current.img} alt={`${room.label} ${current.viewLabel}`} className="room-image" />
-        <div className="room-view-toggle">
-          <button className={view === 'outside' ? 'active' : ''} onClick={() => setView('outside')}>
-            외창형
-          </button>
-          <button className={view === 'inside' ? 'active' : ''} onClick={() => setView('inside')}>
-            내창형
-          </button>
-        </div>
+      <div className="room-card-image-wrap">
+        <span className="room-card-view-badge" style={{ background: room.color }}>
+          {data.viewLabel}
+        </span>
+        {view === 'outside' && room.badge && (
+          <span className="room-card-class-badge">{room.badge}</span>
+        )}
+        <img src={data.img} alt={`${room.label} ${data.viewLabel}`} className="room-card-image" />
       </div>
-
-      <div className="room-info">
-        <div className="room-header">
-          <span className="room-name-en" style={{ color: room.color }}>{room.name}</span>
-          <div className="room-title-row">
-            <h3 className="room-name-kr">{room.label} ({current.viewLabel})</h3>
-            <span className="room-price" style={{ color: room.color }}>{current.price}</span>
-          </div>
-        </div>
-
-        <p className="room-desc">{current.desc}</p>
-
-        <ul className="room-features">
-          {current.features.map((f) => (
-            <li key={f}>
-              <span className="feature-dot" style={{ background: room.color }} />
-              {f}
-            </li>
-          ))}
-        </ul>
-
-        <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer"
-          className="btn-room" style={{ borderColor: room.color, color: room.color }}>
-          이 객실 문의하기
+      <div className="room-card-body">
+        <h3 className="room-card-title">
+          {room.label} <span style={{ color: room.color }}>{data.viewLabel}</span>
+        </h3>
+        <p className="room-card-desc">{data.desc}</p>
+      </div>
+      <div className="room-card-footer">
+        <span className="room-card-price" style={{ color: room.color }}>{data.price}</span>
+        <a
+          href={NAVER_TALK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-detail"
+          style={{ borderColor: room.color, color: room.color }}
+        >
+          상세정보보기
         </a>
       </div>
     </div>
@@ -367,6 +366,10 @@ function RoomCard({ room }: { room: Room }) {
 
 /* ─────────── Rooms ─────────── */
 function Rooms() {
+  const [activeTab, setActiveTab] = useState<string>('premium')
+
+  const currentRoom = rooms.find((r) => r.id === activeTab)!
+
   return (
     <section id="rooms" className="section rooms-section">
       <div className="section-inner">
@@ -377,38 +380,58 @@ function Rooms() {
             당신의 취향과 필요에 맞춘 다양한 프리미엄 룸 라인업
           </p>
         </div>
-        <div className="rooms-grid">
-          {rooms.map((room) => (
-            <RoomCard key={room.id} room={room} />
+
+        <div className="rooms-tabs">
+          {rooms.map((r) => (
+            <button
+              key={r.id}
+              className={`room-tab ${activeTab === r.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(r.id)}
+            >
+              {r.label}
+            </button>
           ))}
+        </div>
+
+        <div className="rooms-cards">
+          <RoomViewCard room={currentRoom} view="outside" />
+          <RoomViewCard room={currentRoom} view="inside" />
         </div>
       </div>
     </section>
   )
 }
 
-/* ─────────── Utility Banner ─────────── */
-function UtilityBanner() {
-  const items = [
-    { icon: '💡', text: '관리비 0원', sub: '수도·전기·가스·WiFi 완전 무료' },
-    { icon: '👗', text: '워시타워 무료', sub: '드럼세탁기 2대·건조기 2대 무제한' },
-    { icon: '🍜', text: '라면 무한 제공', sub: '스타벅스 원두 커피·탄산음료 포함' },
-    { icon: '📅', text: '2주 단기 입주', sub: '실습생·인턴십·단기 거주 환영' },
-  ]
+/* ─────────── Amenities ─────────── */
+const amenities = [
+  { icon: '🫧', name: '워시타워', desc: '드럼세탁기 2대 + 건조기 2대 무제한 이용' },
+  { icon: '🚿', name: '샤워실', desc: '세스코 정기 방역으로 항상 청결한 개인 욕실' },
+  { icon: '🎬', name: '시네마룸', desc: '대형 스크린 + 넷플릭스 프리미엄 무료 이용' },
+  { icon: '🍜', name: '한강라면기계', desc: '24시간 라면 무한 제공 자동 조리기' },
+  { icon: '☕', name: '홈카페', desc: '스타벅스 원두 커피 & 탄산음료 상시 무료' },
+  { icon: '🍳', name: '빌트인쿡탑', desc: '인덕션 2구 + 전자레인지 공용 주방 완비' },
+]
+
+function Amenities() {
   return (
-    <div className="utility-banner">
-      <div className="utility-inner">
-        {items.map((i) => (
-          <div key={i.text} className="utility-item">
-            <span className="utility-icon">{i.icon}</span>
-            <div>
-              <p className="utility-title">{i.text}</p>
-              <p className="utility-sub">{i.sub}</p>
+    <section className="section amenities-section">
+      <div className="section-inner">
+        <div className="section-header">
+          <p className="section-label">AMENITIES</p>
+          <h2 className="section-title">편의 시설</h2>
+          <p className="section-sub">일상의 편안함을 위한 프리미엄 공용 시설을 모두 무료로</p>
+        </div>
+        <div className="amenities-grid">
+          {amenities.map((a) => (
+            <div key={a.name} className="amenity-card">
+              <div className="amenity-icon">{a.icon}</div>
+              <h3 className="amenity-name">{a.name}</h3>
+              <p className="amenity-desc">{a.desc}</p>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
 
@@ -487,6 +510,47 @@ function Security() {
 }
 
 /* ─────────── Location ─────────── */
+const PLACE_LAT = 37.35313
+const PLACE_LNG = 126.94510
+
+function NaverMap() {
+  const mapRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!mapRef.current || typeof naver === 'undefined') return
+
+    const center = new naver.maps.LatLng(PLACE_LAT, PLACE_LNG)
+
+    const map = new naver.maps.Map(mapRef.current, {
+      center,
+      zoom: 17,
+    })
+
+    const marker = new naver.maps.Marker({
+      position: center,
+      map,
+      title: '처음하우스 군포역점',
+    })
+
+    const infoWindow = new naver.maps.InfoWindow({
+      content: `
+        <div style="padding:10px 14px;font-family:'Noto Sans KR',sans-serif;min-width:180px;">
+          <p style="font-size:0.85rem;font-weight:800;color:#2D3748;margin:0 0 4px;">처음하우스 군포역점</p>
+          <p style="font-size:0.78rem;color:#718096;margin:0;">경기도 군포역 1길 32 4층</p>
+          <p style="font-size:0.78rem;color:#718096;margin:2px 0 0;">군포역 1번 출구 도보 1분</p>
+        </div>
+      `,
+      borderWidth: 0,
+      backgroundColor: '#ffffff',
+      anchorSize: new naver.maps.Size(0, 0),
+    })
+
+    infoWindow.open(map, marker)
+  }, [])
+
+  return <div ref={mapRef} style={{ width: '100%', height: '100%', minHeight: '460px' }} />
+}
+
 function Location() {
   return (
     <section id="location" className="section location-section">
@@ -558,16 +622,7 @@ function Location() {
               <span className="naver-n">N</span>
               NAVER 지도로 길찾기
             </a>
-            <iframe
-              title="처음하우스 군포역점 위치"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3171.5793132047353!2d126.94509617676648!3d37.35312887376742!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b67920b8d5ced%3A0xad55d27d05be9c79!2z7Lis7J2M7ZWY7Jqw7IqkIOq1sO2PrOyekeygoA!5e0!3m2!1sko!2skr!4v1739281734000!5m2!1sko!2skr"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            <NaverMap />
           </div>
         </div>
       </div>
@@ -606,7 +661,7 @@ function MainPage() {
       <Hero />
       <ContactBar />
       <Rooms />
-      <UtilityBanner />
+      <Amenities />
       <Facilities />
       <Security />
       <Location />
