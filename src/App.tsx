@@ -513,6 +513,11 @@ function Security() {
 const PLACE_LAT = 37.35313
 const PLACE_LNG = 126.94510
 
+// 인증 실패 시 콘솔에 안내 출력
+;(window as Window & { navermap_authFailure?: () => void }).navermap_authFailure = () => {
+  console.error('[Naver Maps] 인증 실패 — NCP 콘솔에서 Web 서비스 URL 등록 여부를 확인하세요.')
+}
+
 function NaverMap() {
   const mapRef = useRef<HTMLDivElement>(null)
 
