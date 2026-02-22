@@ -4,7 +4,7 @@ import './App.css'
 
 // Swiper
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Pagination, EffectFade } from 'swiper/modules'
+import { Autoplay, Pagination, EffectFade, Navigation } from 'swiper/modules'
 
 // Hero slider
 import heroSlide1 from './assets/hero_slider/main.jpg'
@@ -31,8 +31,15 @@ import studyInside from './assets/rooms/study/inside/inside.jpg'
 // Facilities
 import kitchen from './assets/facilities/kitchen.jpg'
 import shower from './assets/facilities/shower.jpg'
-import hallway from './assets/facilities/hallway.png'
 import cinema from './assets/facilities/cinema.png'
+
+// Room feature icons
+import iconFridge from './assets/icon/fridge.svg'
+import iconWifi from './assets/icon/wifi.svg'
+import iconBills from './assets/icon/bills.svg'
+import iconDesk from './assets/icon/desk.svg'
+import iconHanger from './assets/icon/hanger.svg'
+import iconShelf from './assets/icon/shelf.svg'
 
 // Security
 import security from './assets/security/security.png'
@@ -118,7 +125,7 @@ const rooms: Room[] = [
     name: 'Standard',
     label: '스탠다드',
     badge: null,
-    color: '#FFB3C6',
+    color: '#FF7E67',
     views: {
       outside: {
         img: standardOutside,
@@ -141,7 +148,7 @@ const rooms: Room[] = [
     name: 'Study',
     label: '스터디',
     badge: null,
-    color: '#C9A0DC',
+    color: '#FF9999',
     views: {
       outside: {
         img: studyOutside,
@@ -176,11 +183,6 @@ const facilities = [
     name: '시네마 라운지',
     img: cinema,
     desc: '팝콘향 가득한 공간에서 넷플릭스 프리미엄을 대형 화면으로 즐기세요',
-  },
-  {
-    name: '공용 복도',
-    img: hallway,
-    desc: '24시간 CCTV & 카드키 시스템으로 안전하게 관리되는 청결한 공간',
   },
 ]
 
@@ -328,37 +330,146 @@ function ContactBar() {
   )
 }
 
+/* ─────────── Room Detail Modal ─────────── */
+function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' | 'inside'; onClose: () => void }) {
+  const data = room.views[view]
+  const allImages = [
+    { img: room.views.outside.img, label: room.views.outside.viewLabel },
+    { img: room.views.inside.img, label: room.views.inside.viewLabel },
+  ]
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [onClose])
+
+  return (
+    <div className="room-detail-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose() }}>
+      <div className="room-detail-modal">
+        {/* Left: text content */}
+        <div className="room-detail-content">
+          <div className="room-detail-top-bar">
+            <button className="room-detail-close" onClick={onClose} aria-label="닫기">✕</button>
+          </div>
+          <div className="room-detail-header-row">
+            <div className="room-detail-badges">
+              <span className="room-detail-view-badge" style={{ background: room.color }}>{data.viewLabel}</span>
+              {room.badge && <span className="room-card-class-badge">{room.badge}</span>}
+            </div>
+            <span className="room-detail-price" style={{ color: room.color }}>{data.price}<span className="room-detail-price-unit"> / 월</span></span>
+          </div>
+
+          <h2 className="room-detail-title">
+            {room.label} <span style={{ color: room.color }}>{data.viewLabel}</span>
+          </h2>
+          <p className="room-detail-desc">{data.desc}</p>
+
+          <div className="room-detail-features">
+            <h3 className="room-detail-features-title">주요 특징</h3>
+            <div className="room-detail-feature-list">
+              {data.features.map((f) => (
+                <div key={f} className="room-detail-feature-item">
+                  <span className="room-detail-check" style={{ color: room.color }}>✓</span>
+                  {f}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="room-detail-actions">
+            <Link
+              to="/inquiry"
+              className="btn-enquire-large"
+              style={{ background: room.color }}
+              onClick={onClose}
+            >
+              입주문의하기
+            </Link>
+            <a href="tel:0507-1492-5963" className="btn-call-large">
+              📞 전화문의
+            </a>
+          </div>
+        </div>
+
+        {/* Right: photo slider */}
+        <div className="room-detail-slider-wrap">
+          <Swiper
+            modules={[Pagination, Navigation]}
+            pagination={{ clickable: true }}
+            navigation
+            loop={true}
+            className="room-detail-swiper"
+          >
+            {allImages.map((img) => (
+              <SwiperSlide key={img.label}>
+                <img src={img.img} alt={`${room.label} ${img.label}`} />
+                <span className="room-detail-slide-label" style={{ background: room.color }}>{img.label}</span>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /* ─────────── Room View Card ─────────── */
-function RoomViewCard({ room, view }: { room: Room; view: 'outside' | 'inside' }) {
+function RoomViewCard({ room, view, onDetailClick }: { room: Room; view: 'outside' | 'inside'; onDetailClick: () => void }) {
   const data = room.views[view]
   return (
     <div className="room-card">
-      <div className="room-card-image-wrap">
+      <div className="room-card-image-wrap" onClick={onDetailClick} style={{ cursor: 'pointer' }}>
         <span className="room-card-view-badge" style={{ background: room.color }}>
           {data.viewLabel}
         </span>
         {view === 'outside' && room.badge && (
           <span className="room-card-class-badge">{room.badge}</span>
         )}
-        <img src={data.img} alt={`${room.label} ${data.viewLabel}`} className="room-card-image" />
+        <Swiper
+          modules={[Pagination]}
+          pagination={{ clickable: true }}
+          loop={false}
+          className="room-card-swiper"
+        >
+          <SwiperSlide>
+            <img src={data.img} alt={`${room.label} ${data.viewLabel}`} className="room-card-image" />
+          </SwiperSlide>
+        </Swiper>
       </div>
       <div className="room-card-body">
         <h3 className="room-card-title">
           {room.label} <span style={{ color: room.color }}>{data.viewLabel}</span>
         </h3>
         <p className="room-card-desc">{data.desc}</p>
+        <div className="room-card-features">
+          {data.features.map((f) => (
+            <span key={f} className="room-feature-tag" style={{ background: room.color + '22', color: room.color }}>{f}</span>
+          ))}
+        </div>
       </div>
       <div className="room-card-footer">
         <span className="room-card-price" style={{ color: room.color }}>{data.price}</span>
-        <a
-          href={NAVER_TALK}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-detail"
-          style={{ borderColor: room.color, color: room.color }}
-        >
-          상세정보보기
-        </a>
+        <div className="room-card-actions">
+          <Link
+            to="/inquiry"
+            className="btn-enquire"
+            style={{ background: room.color }}
+          >
+            입주문의
+          </Link>
+          <button
+            className="btn-detail"
+            onClick={onDetailClick}
+            style={{ borderColor: room.color, color: room.color }}
+          >
+            더보기
+          </button>
+        </div>
       </div>
     </div>
   )
@@ -367,6 +478,7 @@ function RoomViewCard({ room, view }: { room: Room; view: 'outside' | 'inside' }
 /* ─────────── Rooms ─────────── */
 function Rooms() {
   const [activeTab, setActiveTab] = useState<string>('premium')
+  const [detailModal, setDetailModal] = useState<{ room: Room; view: 'outside' | 'inside' } | null>(null)
 
   const currentRoom = rooms.find((r) => r.id === activeTab)!
 
@@ -381,56 +493,50 @@ function Rooms() {
           </p>
         </div>
 
-        <div className="rooms-tabs">
-          {rooms.map((r) => (
-            <button
-              key={r.id}
-              className={`room-tab ${activeTab === r.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(r.id)}
-            >
-              {r.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="rooms-cards">
-          <RoomViewCard room={currentRoom} view="outside" />
-          <RoomViewCard room={currentRoom} view="inside" />
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ─────────── Amenities ─────────── */
-const amenities = [
-  { icon: '🫧', name: '워시타워', desc: '드럼세탁기 2대 + 건조기 2대 무제한 이용' },
-  { icon: '🚿', name: '샤워실', desc: '세스코 정기 방역으로 항상 청결한 개인 욕실' },
-  { icon: '🎬', name: '시네마룸', desc: '대형 스크린 + 넷플릭스 프리미엄 무료 이용' },
-  { icon: '🍜', name: '한강라면기계', desc: '24시간 라면 무한 제공 자동 조리기' },
-  { icon: '☕', name: '홈카페', desc: '스타벅스 원두 커피 & 탄산음료 상시 무료' },
-  { icon: '🍳', name: '빌트인쿡탑', desc: '인덕션 2구 + 전자레인지 공용 주방 완비' },
-]
-
-function Amenities() {
-  return (
-    <section className="section amenities-section">
-      <div className="section-inner">
-        <div className="section-header">
-          <p className="section-label">AMENITIES</p>
-          <h2 className="section-title">편의 시설</h2>
-          <p className="section-sub">일상의 편안함을 위한 프리미엄 공용 시설을 모두 무료로</p>
-        </div>
-        <div className="amenities-grid">
-          {amenities.map((a) => (
-            <div key={a.name} className="amenity-card">
-              <div className="amenity-icon">{a.icon}</div>
-              <h3 className="amenity-name">{a.name}</h3>
-              <p className="amenity-desc">{a.desc}</p>
+        <div className="rooms-layout">
+          {/* Left: tabs + features */}
+          <div className="rooms-sidebar">
+            <div className="rooms-tabs">
+              {rooms.map((r) => (
+                <button
+                  key={r.id}
+                  className={`room-tab ${activeTab === r.id ? 'active' : ''}`}
+                  style={activeTab === r.id ? { background: r.color, borderColor: r.color } : {}}
+                  onClick={() => setActiveTab(r.id)}
+                >
+                  {r.label}
+                </button>
+              ))}
             </div>
-          ))}
+
+            <div className="room-all-features">
+              <span className="room-all-features-title">All room features:</span>
+              <ul className="room-all-features-list">
+                <li><img src={iconFridge} alt="개인 냉장고" />개인 냉장고</li>
+                <li><img src={iconBills} alt="가스·전기·수도세 무료" />가스·전기·수도세 무료</li>
+                <li><img src={iconWifi} alt="와이파이" />와이파이</li>
+                <li><img src={iconDesk} alt="책상·의자" />책상·의자</li>
+                <li><img src={iconHanger} alt="벽걸이 행거" />벽걸이 행거</li>
+                <li><img src={iconShelf} alt="선반" />선반</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Right: cards */}
+          <div className="rooms-cards">
+            <RoomViewCard room={currentRoom} view="outside" onDetailClick={() => setDetailModal({ room: currentRoom, view: 'outside' })} />
+            <RoomViewCard room={currentRoom} view="inside" onDetailClick={() => setDetailModal({ room: currentRoom, view: 'inside' })} />
+          </div>
         </div>
       </div>
+
+      {detailModal && (
+        <RoomDetailModal
+          room={detailModal.room}
+          view={detailModal.view}
+          onClose={() => setDetailModal(null)}
+        />
+      )}
     </section>
   )
 }
@@ -666,7 +772,6 @@ function MainPage() {
       <Hero />
       <ContactBar />
       <Rooms />
-      <Amenities />
       <Facilities />
       <Security />
       <Location />

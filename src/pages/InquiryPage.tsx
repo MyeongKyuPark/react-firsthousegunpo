@@ -5,6 +5,8 @@ const NAVER_TALK = 'https://talk.naver.com/wrrrpbm?frm=pblog&ref=https%3A%2F%2Fb
 export default function InquiryPage() {
   const [submitted, setSubmitted] = useState(false)
   const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
     date: '',
     roomType: '',
     period: '',
@@ -20,7 +22,7 @@ export default function InquiryPage() {
     const form = e.currentTarget
     const data = new FormData(form)
     try {
-      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      const res = await fetch('https://formspree.io/f/xeelkyby', {
         method: 'POST',
         body: data,
         headers: { Accept: 'application/json' },
@@ -91,6 +93,34 @@ export default function InquiryPage() {
           ) : (
             <form className="inquiry-form" onSubmit={handleSubmit}>
               <div className="form-group">
+                <label className="form-label" htmlFor="name">이름</label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  className="form-input"
+                  placeholder="이름을 입력해 주세요"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="phone">연락처</label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  className="form-input"
+                  placeholder="010-0000-0000"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
                 <label className="form-label" htmlFor="date">입실 예정일</label>
                 <input
                   id="date"
@@ -136,6 +166,8 @@ export default function InquiryPage() {
                   required
                 >
                   <option value="">선택해 주세요</option>
+                  <option value="1주 단기">1주 단기</option>
+                  <option value="2주 단기">2주 단기</option>
                   <option value="1개월">1개월</option>
                   <option value="2개월">2개월</option>
                   <option value="3개월">3개월</option>
