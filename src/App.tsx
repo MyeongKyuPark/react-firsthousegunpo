@@ -436,14 +436,27 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
 }
 
 /* ─────────── Room View Card ─────────── */
-function RoomViewCard({ room, view, onDetailClick }: { room: Room; view: 'outside' | 'inside'; onDetailClick: () => void }) {
+function RoomViewCard({ room, view, onDetailClick, onViewToggle }: { room: Room; view: 'outside' | 'inside'; onDetailClick: () => void; onViewToggle: () => void }) {
   const data = room.views[view]
+  const isInside = view === 'inside'
   return (
     <div className="room-card">
+      {/* View toggle bar above image */}
+      <div className="view-toggle-bar" onClick={(e) => e.stopPropagation()}>
+        <span className="view-toggle-label">{data.viewLabel}</span>
+        <button
+          className={`view-switch ${isInside ? 'on' : ''}`}
+          onClick={onViewToggle}
+          aria-label="창형 전환"
+        >
+          <span className="view-switch-track" style={{ background: isInside ? room.color : '#cbd5e0' }}>
+            <span className="view-switch-knob" />
+          </span>
+          <span className="view-switch-text">{isInside ? '내창' : '외창'}</span>
+        </button>
+      </div>
+
       <div className="room-card-image-wrap" onClick={onDetailClick} style={{ cursor: 'pointer' }}>
-        <span className="room-card-view-badge" style={{ background: room.color }}>
-          {data.viewLabel}
-        </span>
         {view === 'outside' && room.badge && (
           <span className="room-card-class-badge">{room.badge}</span>
         )}
@@ -495,6 +508,7 @@ function RoomViewCard({ room, view, onDetailClick }: { room: Room; view: 'outsid
 /* ─────────── Rooms ─────────── */
 function Rooms() {
   const [activeTab, setActiveTab] = useState<string>('premium')
+  const [activeView, setActiveView] = useState<'outside' | 'inside'>('outside')
   const [detailModal, setDetailModal] = useState<{ room: Room; view: 'outside' | 'inside' } | null>(null)
 
   const currentRoom = rooms.find((r) => r.id === activeTab)!
@@ -511,7 +525,7 @@ function Rooms() {
         </div>
 
         <div className="rooms-layout">
-          {/* Left: tabs + features */}
+          {/* Left: tabs */}
           <div className="rooms-sidebar">
             <div className="rooms-tabs">
               {rooms.map((r) => (
@@ -519,31 +533,38 @@ function Rooms() {
                   key={r.id}
                   className={`room-tab ${activeTab === r.id ? 'active' : ''}`}
                   style={activeTab === r.id ? { background: r.color, borderColor: r.color } : {}}
-                  onClick={() => setActiveTab(r.id)}
+                  onClick={() => { setActiveTab(r.id); setActiveView('outside') }}
                 >
                   {r.label}
                 </button>
               ))}
             </div>
+          </div>
 
-            <div className="room-all-features">
-              <span className="room-all-features-title">All room features:</span>
-              <ul className="room-all-features-list">
-                <li><img src={iconFridge} alt="개인 냉장고" />개인 냉장고</li>
-                <li><img src={iconBills} alt="가스·전기·수도세 무료" />가스·전기·수도세 무료</li>
-                <li><img src={iconWifi} alt="와이파이" />와이파이</li>
-                <li><img src={iconDesk} alt="책상·의자" />책상·의자</li>
-                <li><img src={iconHanger} alt="벽걸이 행거" />벽걸이 행거</li>
-                <li><img src={iconShelf} alt="선반" />선반</li>
-              </ul>
+          {/* Right: card */}
+          <div className="rooms-cards-wrap">
+            <div className="rooms-cards">
+              <RoomViewCard
+                room={currentRoom}
+                view={activeView}
+                onDetailClick={() => setDetailModal({ room: currentRoom, view: activeView })}
+                onViewToggle={() => setActiveView(activeView === 'outside' ? 'inside' : 'outside')}
+              />
             </div>
           </div>
+        </div>
 
-          {/* Right: cards */}
-          <div className="rooms-cards">
-            <RoomViewCard room={currentRoom} view="outside" onDetailClick={() => setDetailModal({ room: currentRoom, view: 'outside' })} />
-            <RoomViewCard room={currentRoom} view="inside" onDetailClick={() => setDetailModal({ room: currentRoom, view: 'inside' })} />
-          </div>
+        {/* All room features — below room class */}
+        <div className="room-all-features">
+          <span className="room-all-features-title">All room features:</span>
+          <ul className="room-all-features-list">
+            <li><img src={iconFridge} alt="개인 냉장고" />개인 냉장고</li>
+            <li><img src={iconBills} alt="가스·전기·수도세 무료" />가스·전기·수도세 무료</li>
+            <li><img src={iconWifi} alt="와이파이" />와이파이</li>
+            <li><img src={iconDesk} alt="책상·의자" />책상·의자</li>
+            <li><img src={iconHanger} alt="벽걸이 행거" />벽걸이 행거</li>
+            <li><img src={iconShelf} alt="선반" />선반</li>
+          </ul>
         </div>
       </div>
 
