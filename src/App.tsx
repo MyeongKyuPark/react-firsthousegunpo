@@ -223,8 +223,11 @@ function Header() {
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-inner">
         <Link to="/" className="logo" style={{ textDecoration: 'none' }}>
-          <span className="logo-first">처음</span>하우스
-          <span className="logo-sub">군포역점</span>
+          <div className="logo-main">
+            <span className="logo-first">처음</span>하우스
+            <span className="logo-sub">군포역점</span>
+          </div>
+          <div className="logo-tagline">2030 여성 전용 프리미엄</div>
         </Link>
 
         <button

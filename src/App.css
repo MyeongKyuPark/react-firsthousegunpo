@@ -68,17 +68,24 @@ body {
 }
 
 .logo {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--white);
   cursor: pointer;
   transition: var(--transition);
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
   gap: 2px;
 }
 
-.header.scrolled .logo {
+.logo-main {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--white);
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  transition: var(--transition);
+}
+
+.header.scrolled .logo-main {
   color: var(--dark);
 }
 
@@ -91,6 +98,18 @@ body {
   font-weight: 500;
   margin-left: 6px;
   opacity: 0.8;
+}
+
+.logo-tagline {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.04em;
+  transition: var(--transition);
+}
+
+.header.scrolled .logo-tagline {
+  color: #a0aec0;
 }
 
 .nav {
