@@ -113,12 +113,21 @@ body {
 }
 
 .nav {
+  position: fixed;
+  top: 0;
+  right: 24px;
+  height: 72px;
   display: flex;
   align-items: center;
   gap: 8px;
+  z-index: 1001;
 }
 
-.nav button {
+.nav-close {
+  display: none;
+}
+
+.nav button:not(.nav-close) {
   background: none;
   border: none;
   color: rgba(255, 255, 255, 0.9);
@@ -130,18 +139,18 @@ body {
   transition: var(--transition);
 }
 
-.header.scrolled .nav button {
+.nav.scrolled button:not(.nav-close) {
   color: var(--dark);
 }
 
-.nav button:hover {
+.nav button:not(.nav-close):hover {
   background: rgba(255, 107, 157, 0.15);
   color: var(--primary);
 }
 
 .nav-cta {
-  background: #FEE500 !important;
-  color: #3C1E1E !important;
+  background: #03C75A !important;
+  color: #ffffff !important;
   padding: 10px 20px;
   border-radius: 50px;
   font-size: 0.9rem;
@@ -153,10 +162,10 @@ body {
 }
 
 .nav-cta:hover {
-  background: #FEE500 !important;
-  opacity: 0.9;
+  background: #02a84b !important;
+  opacity: 1;
   transform: scale(1.05);
-  box-shadow: 0 4px 15px rgba(254, 229, 0, 0.4);
+  box-shadow: 0 4px 15px rgba(3, 199, 90, 0.4);
 }
 
 .hamburger {
@@ -1524,7 +1533,7 @@ body {
   align-items: center;
 }
 
-.header.scrolled .nav-link {
+.nav.scrolled .nav-link {
   color: var(--dark);
 }
 
@@ -2008,11 +2017,12 @@ body {
   }
 
   .nav-close {
+    display: flex;
     align-self: flex-end;
     background: none;
     border: none;
     font-size: 1.2rem;
-    color: #718096;
+    color: #718096 !important;
     cursor: pointer;
     padding: 4px;
     margin-bottom: 20px;

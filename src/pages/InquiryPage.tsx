@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const NAVER_TALK = 'https://talk.naver.com/wrrrpbm?frm=pblog&ref=https%3A%2F%2Fblog.naver.com%2Ffirsthousegunpo%2F224104118423#nafullscreen'
+const NAVER_TALK = 'https://talk.naver.com/W6H2WZ6'
 
 export default function InquiryPage() {
   const [submitted, setSubmitted] = useState(false)

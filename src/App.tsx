@@ -47,7 +47,7 @@ import security from './assets/security/security.png'
 import InquiryPage from './pages/InquiryPage'
 import FaqPage from './pages/FaqPage'
 
-const NAVER_TALK = 'https://talk.naver.com/wrrrpbm?frm=pblog&ref=https%3A%2F%2Fblog.naver.com%2Ffirsthousegunpo%2F224104118423#nafullscreen'
+const NAVER_TALK = 'https://talk.naver.com/W6H2WZ6'
 
 const heroSlides = [
   { img: heroSlide1, label: '메인 1' },
@@ -253,7 +253,7 @@ function Header() {
       {/* Backdrop and drawer rendered outside header to avoid stacking context clipping */}
       {menuOpen && <div className="nav-backdrop" onClick={() => setMenuOpen(false)} />}
 
-      <nav ref={navRef} className={`nav ${menuOpen ? 'open' : ''}`}>
+      <nav ref={navRef} className={`nav ${menuOpen ? 'open' : ''} ${scrolled ? 'scrolled' : ''}`}>
         <button className="nav-close" onClick={() => setMenuOpen(false)} aria-label="메뉴 닫기">✕</button>
         <button onClick={() => scrollTo('rooms')}>Rooms</button>
         <button onClick={() => scrollTo('facilities')}>Facilities</button>
