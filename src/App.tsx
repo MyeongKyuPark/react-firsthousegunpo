@@ -198,6 +198,7 @@ const nearby = [
 function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const navRef = useRef<HTMLElement>(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -205,6 +206,14 @@ function Header() {
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useEffect(() => {
+    if (!menuOpen) return
+    navRef.current?.scrollTo({ top: 0 })
+    const onScroll = () => setMenuOpen(false)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [menuOpen])
 
   const scrollTo = (id: string) => {
     setMenuOpen(false)
@@ -220,41 +229,47 @@ function Header() {
   }
 
   return (
-    <header className={`header ${scrolled ? 'scrolled' : ''}`}>
-      <div className="header-inner">
-        <Link to="/" className="logo" style={{ textDecoration: 'none' }}>
-          <div className="logo-main">
-            <span className="logo-first">처음</span>하우스
-            <span className="logo-sub">군포역점</span>
-          </div>
-          <div className="logo-tagline">2030 여성 전용 프리미엄</div>
+    <>
+      <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+        <div className="header-inner">
+          <Link to="/" className="logo" style={{ textDecoration: 'none' }}>
+            <div className="logo-main">
+              <span className="logo-first">처음</span>하우스
+              <span className="logo-sub">군포역점</span>
+            </div>
+            <div className="logo-tagline">2030 여성 전용 프리미엄</div>
+          </Link>
+
+          <button
+            className={`hamburger ${menuOpen ? 'open' : ''}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="메뉴 열기"
+          >
+            <span /><span /><span />
+          </button>
+        </div>
+      </header>
+
+      {/* Backdrop and drawer rendered outside header to avoid stacking context clipping */}
+      {menuOpen && <div className="nav-backdrop" onClick={() => setMenuOpen(false)} />}
+
+      <nav ref={navRef} className={`nav ${menuOpen ? 'open' : ''}`}>
+        <button className="nav-close" onClick={() => setMenuOpen(false)} aria-label="메뉴 닫기">✕</button>
+        <button onClick={() => scrollTo('rooms')}>Rooms</button>
+        <button onClick={() => scrollTo('facilities')}>Facilities</button>
+        <button onClick={() => scrollTo('security')}>Security</button>
+        <button onClick={() => scrollTo('location')}>Location</button>
+        <Link to="/inquiry" className="nav-link" onClick={() => setMenuOpen(false)}>
+          입실문의
         </Link>
-
-        <button
-          className={`hamburger ${menuOpen ? 'open' : ''}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="메뉴 열기"
-        >
-          <span /><span /><span />
-        </button>
-
-        <nav className={`nav ${menuOpen ? 'open' : ''}`}>
-          <button onClick={() => scrollTo('rooms')}>Rooms</button>
-          <button onClick={() => scrollTo('facilities')}>Facilities</button>
-          <button onClick={() => scrollTo('security')}>Security</button>
-          <button onClick={() => scrollTo('location')}>Location</button>
-          <Link to="/inquiry" className="nav-link" onClick={() => setMenuOpen(false)}>
-            입실문의
-          </Link>
-          <Link to="/faq" className="nav-link" onClick={() => setMenuOpen(false)}>
-            FAQ
-          </Link>
-          <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer" className="nav-cta">
-            네이버 톡톡
-          </a>
-        </nav>
-      </div>
-    </header>
+        <Link to="/faq" className="nav-link" onClick={() => setMenuOpen(false)}>
+          FAQ
+        </Link>
+        <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer" className="nav-cta">
+          네이버 톡톡
+        </a>
+      </nav>
+    </>
   )
 }
 
@@ -278,7 +293,6 @@ function Hero() {
       </Swiper>
       <div className="hero-overlay" />
       <div className="hero-content">
-        <span className="hero-badge">2030 여성 전용 프리미엄</span>
         <h1 className="hero-title">
           군포역 도보 1분,<br />
           <span>가장 안심되는 나의 첫 시작.</span>
