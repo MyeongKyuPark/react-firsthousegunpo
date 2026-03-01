@@ -720,8 +720,8 @@ function Security() {
 }
 
 /* ─────────── Location ─────────── */
-const PLACE_LAT = 37.35313
-const PLACE_LNG = 126.94510
+const PLACE_LAT = 37.353206
+const PLACE_LNG = 126.947650
 
 function NaverMap() {
   const [mapFailed, setMapFailed] = useState(false)
