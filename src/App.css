@@ -1391,10 +1391,13 @@ body {
 }
 
 .nearby-icon {
-  font-size: 1.2rem;
   width: 36px;
-  text-align: center;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  color: var(--primary);
 }
 
 .nearby-item strong {
@@ -1521,7 +1524,6 @@ body {
 }
 
 .contact-icon {
-  font-size: 1.5rem;
   width: 48px;
   height: 48px;
   background: var(--secondary);
@@ -1530,6 +1532,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  color: var(--primary);
 }
 
 .contact-label {

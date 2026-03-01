@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom'
 import './App.css'
 
@@ -60,7 +60,7 @@ import cinema from './assets/facilities/cinema/Cinema_Hero.png'
 import washtower from './assets/facilities/washtower/Washtower_Hero.jpg'
 
 // Icons (lucide-react)
-import { Refrigerator, Wifi, Zap, Monitor, Shirt, Archive, Phone, MessageCircle, MapPin } from 'lucide-react'
+import { Refrigerator, Wifi, Zap, Monitor, Shirt, Archive, Phone, MessageCircle, MapPin, Train, ShoppingBag, BookOpen, Shield, TreePine } from 'lucide-react'
 
 // Security
 import security from './assets/security/security.png'
@@ -212,12 +212,12 @@ const facilities = [
   },
 ]
 
-const nearby = [
-  { icon: '🚉', name: '군포역 1번 출구', desc: '도보 1분' },
-  { icon: '🛒', name: '군포역전시장', desc: '장보기 편리한 환경' },
-  { icon: '📚', name: '당동도서관', desc: '도보 5분, 집중의 시간' },
-  { icon: '👮', name: '군포지구대', desc: '경찰서 5분 거리 안심 보안' },
-  { icon: '🌳', name: '당정근린공원', desc: '숲세권 산책로 완비' },
+const nearby: { icon: React.ReactNode; name: string; desc: string }[] = [
+  { icon: <Train size={18} />, name: '군포역 1번 출구', desc: '도보 1분' },
+  { icon: <ShoppingBag size={18} />, name: '군포역전시장', desc: '장보기 편리한 환경' },
+  { icon: <BookOpen size={18} />, name: '당동도서관', desc: '도보 5분, 집중의 시간' },
+  { icon: <Shield size={18} />, name: '군포지구대', desc: '경찰서 5분 거리 안심 보안' },
+  { icon: <TreePine size={18} />, name: '당정근린공원', desc: '숲세권 산책로 완비' },
 ]
 
 /* ─────────── Header ─────────── */
@@ -825,7 +825,7 @@ function Location() {
         <div className="location-grid">
           <div className="location-info">
             <div className="contact-item">
-              <div className="contact-icon">📍</div>
+              <div className="contact-icon"><MapPin size={22} /></div>
               <div>
                 <p className="contact-label">주소</p>
                 <p className="contact-value">경기도 군포역 1길 32 4층</p>
@@ -833,7 +833,7 @@ function Location() {
               </div>
             </div>
             <div className="contact-item">
-              <div className="contact-icon">📞</div>
+              <div className="contact-icon"><Phone size={22} /></div>
               <div>
                 <p className="contact-label">전화번호</p>
                 <a href="tel:0507-1492-5963" className="contact-value contact-link">
@@ -842,7 +842,7 @@ function Location() {
               </div>
             </div>
             <div className="contact-item">
-              <div className="contact-icon">💬</div>
+              <div className="contact-icon"><MessageCircle size={22} /></div>
               <div>
                 <p className="contact-label">온라인 문의</p>
                 <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer"
