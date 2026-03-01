@@ -486,6 +486,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  container-type: inline-size;
 }
 
 /* Tab bar */
@@ -1115,9 +1116,11 @@ body {
 /* ===== ROOM ALL FEATURES ===== */
 .room-all-features {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
   gap: 12px 24px;
   padding: 16px 20px;
   margin-top: 20px;
@@ -1126,11 +1129,10 @@ body {
 }
 
 .room-all-features-title {
-  font-size: 0.82rem;
+  font-size: clamp(0.3rem, 4cqi, 0.65rem);
   font-weight: 800;
   color: #718096;
-  white-space: nowrap;
-  margin-right: 4px;
+  margin-bottom: 8px;
 }
 
 .room-all-features-list {
@@ -1138,23 +1140,25 @@ body {
   padding: 0;
   margin: 0;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 10px 24px;
+  flex-direction: column;
+  gap: 7px;
+  width: 100%;
 }
 
 .room-all-features-list li {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.85rem;
+  font-size: clamp(0.3rem, 4cqi, 0.65rem);
   font-weight: 600;
   color: var(--dark);
+  min-width: 0;
 }
 
 .room-all-features-list li img {
-  width: 18px;
-  height: 18px;
+  width: clamp(10px, 6cqi, 16px);
+  height: clamp(10px, 6cqi, 16px);
+  flex-shrink: 0;
   object-fit: contain;
 }
 

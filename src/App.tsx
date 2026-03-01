@@ -606,6 +606,17 @@ function Rooms() {
                 </button>
               ))}
             </div>
+            <div className="room-all-features">
+              <span className="room-all-features-title">All room features:</span>
+              <ul className="room-all-features-list">
+                <li><img src={iconFridge} alt="개인 냉장고" />개인 냉장고</li>
+                <li><img src={iconBills} alt="가스·전기·수도세 무료" />가스·전기·수도세 무료</li>
+                <li><img src={iconWifi} alt="와이파이" />와이파이</li>
+                <li><img src={iconDesk} alt="책상·의자" />책상·의자</li>
+                <li><img src={iconHanger} alt="벽걸이 행거" />벽걸이 행거</li>
+                <li><img src={iconShelf} alt="선반" />선반</li>
+              </ul>
+            </div>
           </div>
 
           {/* Right: card */}
@@ -621,18 +632,6 @@ function Rooms() {
           </div>
         </div>
 
-        {/* All room features — below room class */}
-        <div className="room-all-features">
-          <span className="room-all-features-title">All room features:</span>
-          <ul className="room-all-features-list">
-            <li><img src={iconFridge} alt="개인 냉장고" />개인 냉장고</li>
-            <li><img src={iconBills} alt="가스·전기·수도세 무료" />가스·전기·수도세 무료</li>
-            <li><img src={iconWifi} alt="와이파이" />와이파이</li>
-            <li><img src={iconDesk} alt="책상·의자" />책상·의자</li>
-            <li><img src={iconHanger} alt="벽걸이 행거" />벽걸이 행거</li>
-            <li><img src={iconShelf} alt="선반" />선반</li>
-          </ul>
-        </div>
       </div>
 
       {detailModal && (
