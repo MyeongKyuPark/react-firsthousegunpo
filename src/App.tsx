@@ -814,8 +814,7 @@ function NaverMap() {
     )
   }
 
-  // docs: <div id="map" style="width:100%;height:400px;"></div>
-  return <div id="naver-map" style={{ width: '100%', height: '460px' }} />
+  return <div id="naver-map" className="naver-map-container" />
 }
 
 function Location() {
