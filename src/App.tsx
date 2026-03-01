@@ -67,6 +67,8 @@ import security from './assets/security/security.png'
 
 import InquiryPage from './pages/InquiryPage'
 import FaqPage from './pages/FaqPage'
+import AboutPage from './pages/AboutPage'
+import PrivacyPage from './pages/PrivacyPage'
 
 const NAVER_TALK = 'https://talk.naver.com/W6H2WZ6'
 
@@ -292,6 +294,9 @@ function Header() {
         </Link>
         <Link to="/faq" className="nav-link" onClick={() => setMenuOpen(false)}>
           FAQ
+        </Link>
+        <Link to="/about" className="nav-link" onClick={() => setMenuOpen(false)}>
+          소개
         </Link>
         <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer" className="nav-cta">
           네이버 톡톡
@@ -909,7 +914,12 @@ function Footer() {
           <span>|</span>
           <Link to="/faq">FAQ</Link>
           <span>|</span>
+          <Link to="/about">소개</Link>
+          <span>|</span>
           <a href="https://map.naver.com/p/entry/place/1846291527" target="_blank" rel="noopener noreferrer">네이버 지도</a>
+        </div>
+        <div className="footer-legal">
+          <Link to="/privacy">개인정보처리방침</Link>
         </div>
         <p className="footer-copy">© 2025 처음하우스 군포역점. All rights reserved.</p>
       </div>
@@ -940,6 +950,8 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/inquiry" element={<InquiryPage />} />
         <Route path="/faq" element={<FaqPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
       </Routes>
       <Footer />
     </div>
