@@ -473,20 +473,31 @@ body {
   background: var(--white);
 }
 
-/* Rooms layout: sidebar + cards */
+/* Rooms layout: sidebar + cards + features (grid) */
 .rooms-layout {
-  display: flex;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  grid-template-rows: auto 1fr;
   gap: 40px;
-  align-items: stretch;
 }
 
 .rooms-sidebar {
-  width: 180px;
-  flex-shrink: 0;
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
   gap: 24px;
   container-type: inline-size;
+}
+
+.rooms-cards-wrap {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.room-all-features {
+  grid-column: 1;
+  grid-row: 2;
 }
 
 /* Tab bar */
@@ -523,7 +534,6 @@ body {
 
 /* Cards grid */
 .rooms-cards-wrap {
-  flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -1118,13 +1128,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  flex: 1;
+  align-self: stretch;
   width: 100%;
   min-width: 0;
   overflow: hidden;
   gap: 12px 24px;
   padding: 12px 10px;
-  margin-top: 16px;
   background: var(--light);
   border-radius: 12px;
   container-type: size; /* cqb(높이 기준) + cqi(너비 기준) 모두 활성화 */
@@ -1166,15 +1175,15 @@ body {
   stroke-width: 2;
 }
 
-/* 모바일(≤900px): 너비 기준 cqi 자동 조절 */
+/* 모바일(≤900px): full-width 컨테이너 기준 cqi */
 @media (max-width: 900px) {
   .room-all-features-title,
   .room-all-features-list li {
-    font-size: clamp(0.3rem, 4cqi, 0.65rem);
+    font-size: clamp(0.72rem, 2cqi, 0.85rem);
   }
   .room-feature-icon {
-    width: clamp(10px, 6cqi, 16px);
-    height: clamp(10px, 6cqi, 16px);
+    width: clamp(14px, 2cqi, 18px);
+    height: clamp(14px, 2cqi, 18px);
   }
 }
 
@@ -2021,16 +2030,40 @@ body {
   }
 
   .rooms-layout {
-    flex-direction: row;
+    grid-template-columns: 90px 1fr;
+    grid-template-rows: auto auto;
     gap: 16px;
-    align-items: flex-start;
   }
 
   .rooms-sidebar {
-    width: 90px;
-    flex-shrink: 0;
+    grid-column: 1;
+    grid-row: 1;
     flex-direction: column;
-    gap: 16px;
+    gap: 6px;
+  }
+
+  .rooms-cards-wrap {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  .room-all-features {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    padding: 12px 14px;
+    align-self: auto;
+  }
+
+  .room-all-features-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    justify-content: flex-start;
+  }
+
+  .room-all-features-list li {
+    width: calc(50% - 8px);
   }
 
   .rooms-tabs {
@@ -2043,16 +2076,6 @@ body {
     font-size: 0.78rem;
     padding: 10px 8px;
     text-align: center;
-  }
-
-  .room-all-features {
-    padding: 10px 8px;
-    margin-top: 12px;
-  }
-
-  .rooms-cards-wrap {
-    flex: 1;
-    min-width: 0;
   }
 
   .rooms-cards {
