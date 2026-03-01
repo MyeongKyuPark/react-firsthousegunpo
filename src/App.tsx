@@ -905,15 +905,15 @@ function Footer() {
         </div>
         <p className="footer-address">경기도 군포역 1길 32 4층 | 0507-1492-5963</p>
         <div className="footer-links">
-          <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer">네이버 톡톡 문의</a>
+          <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer">네이버 톡톡</a>
           <span>|</span>
-          <Link to="/inquiry">입실문의</Link>
+          <a href="https://open.kakao.com/me/firsthousegunpo" target="_blank" rel="noopener noreferrer">카카오톡</a>
+          <span>|</span>
+          <Link to="/inquiry">입실<br />문의</Link>
           <span>|</span>
           <Link to="/faq">FAQ</Link>
           <span>|</span>
           <Link to="/about">소개</Link>
-          <span>|</span>
-          <a href="https://map.naver.com/p/entry/place/1846291527" target="_blank" rel="noopener noreferrer">네이버 지도</a>
         </div>
         <div className="footer-legal">
           <Link to="/privacy">개인정보처리방침</Link>
