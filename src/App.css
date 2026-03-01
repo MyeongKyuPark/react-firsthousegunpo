@@ -2178,9 +2178,10 @@ body {
     overflow: hidden;
   }
 
-  /* X button: 슬라이더 위에 fixed로 항상 노출 */
+  /* X button: top-bar는 높이 0으로 숨기되 버튼은 fixed로 노출 */
   .room-detail-top-bar {
-    display: none;
+    display: block;
+    height: 0;
   }
 
   .room-detail-close {
@@ -2190,6 +2191,11 @@ body {
     z-index: 10001;
     background: white;
     border: 1.5px solid #cbd5e0;
+  }
+
+  /* X 버튼(right:14px, width:36px)과 토글 겹침 방지 */
+  .room-detail-view-header {
+    padding-right: 58px;
   }
 
   .room-detail-slider-wrap {
@@ -2204,6 +2210,7 @@ body {
     width: 100%;
     height: auto;
     flex: 1;
+    min-height: 0; /* flex 스크롤 활성화 */
     padding: 20px 20px 32px;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
