@@ -592,7 +592,7 @@ function Rooms() {
         </div>
 
         <div className="rooms-layout">
-          {/* Left: tabs */}
+          {/* Left: tabs + features */}
           <div className="rooms-sidebar">
             <div className="rooms-tabs">
               {rooms.map((r) => (
@@ -606,6 +606,17 @@ function Rooms() {
                 </button>
               ))}
             </div>
+            <div className="room-all-features">
+              <span className="room-all-features-title">All room features:</span>
+              <ul className="room-all-features-list">
+                <li><Refrigerator className="room-feature-icon" />개인 냉장고</li>
+                <li><Zap className="room-feature-icon" />가스·전기·수도세 무료</li>
+                <li><Wifi className="room-feature-icon" />와이파이</li>
+                <li><Monitor className="room-feature-icon" />책상·의자</li>
+                <li><Shirt className="room-feature-icon" />벽걸이 행거</li>
+                <li><Archive className="room-feature-icon" />선반</li>
+              </ul>
+            </div>
           </div>
 
           {/* Right: card */}
@@ -618,19 +629,6 @@ function Rooms() {
                 onViewToggle={() => setActiveView(activeView === 'outside' ? 'inside' : 'outside')}
               />
             </div>
-          </div>
-
-          {/* All features: col 1 / row 2 on desktop, full-width row 2 on mobile */}
-          <div className="room-all-features">
-            <span className="room-all-features-title">All room features:</span>
-            <ul className="room-all-features-list">
-              <li><Refrigerator className="room-feature-icon" />개인 냉장고</li>
-              <li><Zap className="room-feature-icon" />가스·전기·수도세 무료</li>
-              <li><Wifi className="room-feature-icon" />와이파이</li>
-              <li><Monitor className="room-feature-icon" />책상·의자</li>
-              <li><Shirt className="room-feature-icon" />벽걸이 행거</li>
-              <li><Archive className="room-feature-icon" />선반</li>
-            </ul>
           </div>
         </div>
 
