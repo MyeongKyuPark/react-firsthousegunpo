@@ -2273,7 +2273,9 @@ body {
   .room-detail-slider-wrap {
     order: 1;
     flex: none;
-    aspect-ratio: 4/3;
+    height: 65vw;
+    max-height: 420px;
+    min-height: 260px;
     width: 100%;
   }
 
