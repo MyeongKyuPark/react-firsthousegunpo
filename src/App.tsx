@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Routes, Route, Link, useNavigate } from 'react-router-dom'
+import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom'
 import './App.css'
 
 // Swiper
@@ -14,9 +14,9 @@ import heroSlide4 from './assets/hero_slider/main_eating.png'
 
 // Rooms – premium
 import premiumOutsideHero from './assets/rooms/premium/outside/Premium_Outside_Hero.png'
-import premiumOutside from './assets/rooms/premium/outside/outside.jpg'
 import premiumOutsideBroadView from './assets/rooms/premium/outside/broad view.png'
 import premiumOutsideNarrowView from './assets/rooms/premium/outside/narrow view.png'
+import premiumOutsideWriting from './assets/rooms/premium/outside/Premium_Outside_writing.png'
 import premiumInsideHero from './assets/rooms/premium/inside/Premium_Inside_Hero.jpg'
 import premiumInsideReading from './assets/rooms/premium/inside/premium inside_reading.png'
 import premiumInsideReading2 from './assets/rooms/premium/inside/premium inside_reading2.png'
@@ -35,7 +35,8 @@ import deluxeInsideWorking from './assets/rooms/deluxe/inside/deluxe inside work
 // Rooms – standard
 import standardOutsideHero from './assets/rooms/standard/outside/Standard_Outside_Hero.png'
 import standardOutside3 from './assets/rooms/standard/outside/standard outside2.png'
-import standardOutsideStudying from './assets/rooms/standard/outside/standard outside studying.png'
+import standardOutsideStudying from './assets/rooms/standard/outside/Standard_Outside_studying.png'
+import standardOutsideCoffee from './assets/rooms/standard/outside/Standard_Outside_Coffe.png'
 import standardOutsideWorking from './assets/rooms/standard/outside/standard outside_working.png'
 import standardInsideHero from './assets/rooms/standard/inside/Standard_Inside_Hero.png'
 import standardInsideNeat from './assets/rooms/standard/inside/standard inside_neat.png'
@@ -53,9 +54,10 @@ import studyInsideWorking2 from './assets/rooms/study/inside/study inside_workin
 import studyInsideStudy from './assets/rooms/study/inside/study inside_study.png'
 
 // Facilities
-import kitchen from './assets/facilities/kitchen.jpg'
-import shower from './assets/facilities/shower.jpg'
-import cinema from './assets/facilities/cinema.png'
+import kitchen from './assets/facilities/kitchen/Kitchen_Hero.jpg'
+import shower from './assets/facilities/shower/Shower_Hero.jpg'
+import cinema from './assets/facilities/cinema/Cinema_Hero.png'
+import washtower from './assets/facilities/washtower/Washtower_Hero.jpg'
 
 // Room feature icons
 import iconFridge from './assets/icon/fridge.svg'
@@ -106,7 +108,7 @@ const rooms: Room[] = [
     color: '#FF7E67',
     views: {
       outside: {
-        imgs: [premiumOutsideHero, premiumOutside, premiumOutsideBroadView, premiumOutsideNarrowView],
+        imgs: [premiumOutsideHero, premiumOutsideBroadView, premiumOutsideNarrowView, premiumOutsideWriting],
         price: '월 45만원',
         viewLabel: '외창형',
         features: ['막힘없는 뷰', '모던 가구', '독립 창문', '개방감 UP'],
@@ -152,7 +154,7 @@ const rooms: Room[] = [
     color: '#FF7E67',
     views: {
       outside: {
-        imgs: [standardOutsideHero, standardOutside3, standardOutsideStudying, standardOutsideWorking],
+        imgs: [standardOutsideHero, standardOutside3, standardOutsideStudying, standardOutsideCoffee, standardOutsideWorking],
         price: '월 38만원',
         viewLabel: '외창형',
         features: ['햇살 맛집', '최고의 환기', '풍부한 채광', '가성비 최고'],
@@ -208,6 +210,11 @@ const facilities = [
     img: cinema,
     desc: '팝콘향 가득한 공간에서 넷플릭스 프리미엄을 대형 화면으로 즐기세요',
   },
+  {
+    name: '워시타워',
+    img: washtower,
+    desc: '세탁기·건조기 워시타워 2세트 완비, 24시간 자유롭게 이용 가능',
+  },
 ]
 
 const nearby = [
@@ -224,6 +231,8 @@ function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const navRef = useRef<HTMLElement>(null)
   const navigate = useNavigate()
+  const location = useLocation()
+  const isMainPage = location.pathname === '/'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -254,7 +263,7 @@ function Header() {
 
   return (
     <>
-      <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+      <header className={`header ${scrolled || !isMainPage ? 'scrolled' : ''}`}>
         <div className="header-inner">
           <Link to="/" className="logo" style={{ textDecoration: 'none' }}>
             <div className="logo-main">
@@ -277,7 +286,7 @@ function Header() {
       {/* Backdrop and drawer rendered outside header to avoid stacking context clipping */}
       {menuOpen && <div className="nav-backdrop" onClick={() => setMenuOpen(false)} />}
 
-      <nav ref={navRef} className={`nav ${menuOpen ? 'open' : ''} ${scrolled ? 'scrolled' : ''}`}>
+      <nav ref={navRef} className={`nav ${menuOpen ? 'open' : ''} ${scrolled || !isMainPage ? 'scrolled' : ''}`}>
         <button className="nav-close" onClick={() => setMenuOpen(false)} aria-label="메뉴 닫기">✕</button>
         <button onClick={() => scrollTo('rooms')}>Rooms</button>
         <button onClick={() => scrollTo('facilities')}>Facilities</button>
@@ -373,7 +382,10 @@ function ContactBar() {
 
 /* ─────────── Room Detail Modal ─────────── */
 function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' | 'inside'; onClose: () => void }) {
-  const data = room.views[view]
+  const [activeRoom, setActiveRoom] = useState<Room>(room)
+  const [activeView, setActiveView] = useState<'outside' | 'inside'>(view)
+  const data = activeRoom.views[activeView]
+  const isInside = activeView === 'inside'
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -393,16 +405,30 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
           <div className="room-detail-top-bar">
             <button className="room-detail-close" onClick={onClose} aria-label="닫기">✕</button>
           </div>
+
+          {/* Class tabs */}
+          <div className="room-detail-class-tabs">
+            {rooms.map((r) => (
+              <button
+                key={r.id}
+                className={`room-detail-class-tab ${activeRoom.id === r.id ? 'active' : ''}`}
+                style={activeRoom.id === r.id ? { background: r.color, borderColor: r.color, color: 'white' } : {}}
+                onClick={() => setActiveRoom(r)}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
+
           <div className="room-detail-header-row">
             <div className="room-detail-badges">
-              <span className="room-detail-view-badge" style={{ background: room.color }}>{data.viewLabel}</span>
-              {room.badge && <span className="room-card-class-badge">{room.badge}</span>}
+              <span className="room-detail-view-badge" style={{ background: activeRoom.color }}>{data.viewLabel}</span>
             </div>
-            <span className="room-detail-price" style={{ color: room.color }}>{data.price}<span className="room-detail-price-unit"> / 월</span></span>
+            <span className="room-detail-price" style={{ color: activeRoom.color }}>{data.price}<span className="room-detail-price-unit"> / 월</span></span>
           </div>
 
           <h2 className="room-detail-title">
-            {room.label} <span style={{ color: room.color }}>{data.viewLabel}</span>
+            {activeRoom.label} <span style={{ color: activeRoom.color }}>{data.viewLabel}</span>
           </h2>
           <p className="room-detail-desc">{data.desc}</p>
 
@@ -411,7 +437,7 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
             <div className="room-detail-feature-list">
               {data.features.map((f) => (
                 <div key={f} className="room-detail-feature-item">
-                  <span className="room-detail-check" style={{ color: room.color }}>✓</span>
+                  <span className="room-detail-check" style={{ color: activeRoom.color }}>✓</span>
                   {f}
                 </div>
               ))}
@@ -422,7 +448,7 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
             <Link
               to="/inquiry"
               className="btn-enquire-large"
-              style={{ background: room.color }}
+              style={{ background: activeRoom.color }}
               onClick={onClose}
             >
               입주문의하기
@@ -436,13 +462,25 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
         {/* Right: photo slider */}
         <div className="room-detail-slider-wrap">
           <div className="room-detail-view-header">
-            <span className="room-detail-view-pill" style={{ background: room.color }}>
+            <span className="room-detail-view-pill" style={{ background: activeRoom.color }}>
               {data.viewLabel}
             </span>
-            <span className="room-detail-view-count">{data.imgs.length}장</span>
+            <button
+              className={`view-switch modal-view-switch ${isInside ? 'on' : ''}`}
+              onClick={() => setActiveView(isInside ? 'outside' : 'inside')}
+              aria-label="창형 전환"
+            >
+              <span className="view-switch-track" style={{ background: isInside ? activeRoom.color : 'rgba(255,255,255,0.3)' }}>
+                <span className="view-switch-knob" />
+              </span>
+              <span className="view-switch-text" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                {isInside ? '내창' : '외창'}
+              </span>
+            </button>
           </div>
           <div className="room-detail-view-swiper-wrap">
             <Swiper
+              key={activeView}
               modules={[Pagination, Navigation]}
               pagination={{ clickable: true }}
               navigation
@@ -484,9 +522,6 @@ function RoomViewCard({ room, view, onDetailClick, onViewToggle }: { room: Room;
       </div>
 
       <div className="room-card-image-wrap" onClick={onDetailClick} style={{ cursor: 'pointer' }}>
-        {view === 'outside' && room.badge && (
-          <span className="room-card-class-badge">{room.badge}</span>
-        )}
         <Swiper
           key={view}
           modules={[Pagination, Navigation]}

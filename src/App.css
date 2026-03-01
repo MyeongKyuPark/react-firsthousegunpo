@@ -561,6 +561,7 @@ body {
 .room-card-swiper {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .room-card-swiper .swiper-slide {
@@ -571,7 +572,7 @@ body {
 .room-card-slide-label {
   position: absolute;
   bottom: 10px;
-  left: 10px;
+  right: 10px;
   color: white;
   font-size: 0.68rem;
   font-weight: 800;
@@ -604,7 +605,7 @@ body {
   transition: transform 0.4s ease;
 }
 
-.room-card:hover .room-card-image {
+.room-card:hover .swiper-slide-active .room-card-image {
   transform: scale(1.04);
 }
 
@@ -680,20 +681,6 @@ body {
   transform: translateX(20px);
 }
 
-/* Class badge: BEST / POPULAR */
-.room-card-class-badge {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  z-index: 2;
-  background: var(--dark);
-  color: white;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  padding: 4px 10px;
-  border-radius: 4px;
-}
 
 /* Body */
 .room-card-body {
@@ -814,12 +801,39 @@ body {
 }
 
 .room-detail-top-bar {
+  display: block;
+  height: 0;
+}
+
+.room-detail-class-tabs {
   display: flex;
-  justify-content: flex-end;
+  gap: 6px;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 
+.room-detail-class-tab {
+  padding: 5px 14px;
+  border-radius: 50px;
+  border: 1.5px solid #e2e8f0;
+  background: transparent;
+  color: #718096;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-family: inherit;
+}
+
+.room-detail-class-tab:hover {
+  border-color: #a0aec0;
+  color: #2d3748;
+}
+
 .room-detail-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
   background: white;
   color: var(--dark);
   border: 1.5px solid #cbd5e0;
@@ -856,6 +870,10 @@ body {
   padding: 7px 14px;
   background: rgba(0, 0, 0, 0.65);
   flex-shrink: 0;
+}
+
+.modal-view-switch {
+  margin-left: auto;
 }
 
 .room-detail-view-pill {
@@ -918,6 +936,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
 }
 
 .room-detail-header-row {
