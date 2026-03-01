@@ -723,47 +723,99 @@ function Security() {
 const PLACE_LAT = 37.35313
 const PLACE_LNG = 126.94510
 
-// 인증 실패 시 콘솔에 안내 출력
-;(window as Window & { navermap_authFailure?: () => void }).navermap_authFailure = () => {
-  console.error('[Naver Maps] 인증 실패 — NCP 콘솔에서 Web 서비스 URL 등록 여부를 확인하세요.')
-}
-
 function NaverMap() {
-  const mapRef = useRef<HTMLDivElement>(null)
+  const [mapFailed, setMapFailed] = useState(false)
 
   useEffect(() => {
-    if (!mapRef.current || typeof naver === 'undefined') return
+    // NCP 인증 실패 콜백 (docs: window.navermap_authFailure)
+    ;(window as Window & { navermap_authFailure?: () => void }).navermap_authFailure = () => {
+      setMapFailed(true)
+    }
 
-    const center = new naver.maps.LatLng(PLACE_LAT, PLACE_LNG)
+    let timer: ReturnType<typeof setInterval>
+    let attempts = 0
 
-    const map = new naver.maps.Map(mapRef.current, {
-      center,
-      zoom: 17,
-    })
+    const initMap = () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const nv = (window as any).naver
+      if (!nv?.maps) {
+        if (++attempts >= 50) {
+          clearInterval(timer)
+          setMapFailed(true)
+        }
+        return
+      }
+      clearInterval(timer)
 
-    const marker = new naver.maps.Marker({
-      position: center,
-      map,
-      title: '처음하우스 군포역점',
-    })
+      // 지도 생성 (docs: new naver.maps.Map('map', mapOptions))
+      const center = new nv.maps.LatLng(PLACE_LAT, PLACE_LNG)
+      const map = new nv.maps.Map('naver-map', {
+        center,
+        zoom: 17,
+      })
 
-    const infoWindow = new naver.maps.InfoWindow({
-      content: `
-        <div style="padding:10px 14px;font-family:'Noto Sans KR',sans-serif;min-width:180px;">
-          <p style="font-size:0.85rem;font-weight:800;color:#2D3748;margin:0 0 4px;">처음하우스 군포역점</p>
-          <p style="font-size:0.78rem;color:#718096;margin:0;">경기도 군포역 1길 32 4층</p>
-          <p style="font-size:0.78rem;color:#718096;margin:2px 0 0;">군포역 1번 출구 도보 1분</p>
-        </div>
-      `,
-      borderWidth: 0,
-      backgroundColor: '#ffffff',
-      anchorSize: new naver.maps.Size(0, 0),
-    })
+      // 마커 생성 (docs: new naver.maps.Marker({ position, map }))
+      const marker = new nv.maps.Marker({
+        position: center,
+        map,
+      })
 
-    infoWindow.open(map, marker)
+      // 정보창 생성 (docs: new naver.maps.InfoWindow({ content }))
+      const contentString = [
+        '<div style="padding:12px 16px;font-family:\'Noto Sans KR\',sans-serif;min-width:160px;">',
+        '<p style="font-size:0.88rem;font-weight:800;color:#2D3748;margin:0 0 5px;">처음하우스 군포역점</p>',
+        '<p style="font-size:0.78rem;color:#718096;margin:0;">경기도 군포역 1길 32 4층</p>',
+        '<p style="font-size:0.78rem;color:#FF7E67;font-weight:700;margin:4px 0 0;">🚉 군포역 1번 출구 도보 1분</p>',
+        '</div>',
+      ].join('')
+
+      const infoWindow = new nv.maps.InfoWindow({
+        content: contentString,
+        backgroundColor: '#ffffff',
+        borderWidth: 1,
+        borderColor: '#e2e8f0',
+        anchorSize: new nv.maps.Size(10, 10),
+      })
+
+      // 마커 클릭 시 정보창 토글 (docs 표준 패턴)
+      nv.maps.Event.addListener(marker, 'click', function () {
+        if (infoWindow.getMap()) {
+          infoWindow.close()
+        } else {
+          infoWindow.open(map, marker)
+        }
+      })
+
+      // 최초 로드 시 정보창 열기
+      infoWindow.open(map, marker)
+    }
+
+    timer = setInterval(initMap, 100)
+    initMap()
+
+    return () => clearInterval(timer)
   }, [])
 
-  return <div ref={mapRef} style={{ width: '100%', height: '100%', minHeight: '460px' }} />
+  if (mapFailed) {
+    return (
+      <div className="map-fallback">
+        <span className="map-fallback-icon">🗺</span>
+        <p className="map-fallback-text">지도를 불러올 수 없습니다</p>
+        <a
+          href="https://map.naver.com/p/entry/place/1846291527"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-naver"
+          style={{ fontSize: '0.88rem', padding: '10px 22px' }}
+        >
+          네이버 지도에서 보기
+        </a>
+      </div>
+    )
+  }
+
+  // docs: <div id="map" style="width:100%;height:400px;"></div>
+  return <div id="naver-map" style={{ width: '100%', height: '460px' }} />
 }
 
 function Location() {
