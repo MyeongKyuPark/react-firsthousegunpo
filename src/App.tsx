@@ -209,7 +209,7 @@ const facilities = [
   {
     name: '워시타워',
     img: washtower,
-    desc: '세탁기·건조기 워시타워 2세트 완비, 24시간 자유롭게 이용 가능',
+    desc: '세탁기·건조기\n워시타워 2세트 완비',
   },
 ]
 
