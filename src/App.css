@@ -2072,6 +2072,10 @@ body {
   .rooms-cards {
     grid-template-columns: 1fr;
   }
+
+  .room-card-image-wrap {
+    aspect-ratio: 3/2;
+  }
 }
 
 @media (max-width: 480px) {
