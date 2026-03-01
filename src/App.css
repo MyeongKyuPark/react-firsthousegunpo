@@ -1175,17 +1175,6 @@ body {
   stroke-width: 2;
 }
 
-/* 모바일(≤900px): full-width 컨테이너 기준 cqi */
-@media (max-width: 900px) {
-  .room-all-features-title,
-  .room-all-features-list li {
-    font-size: clamp(0.72rem, 2cqi, 0.85rem);
-  }
-  .room-feature-icon {
-    width: clamp(14px, 2cqi, 18px);
-    height: clamp(14px, 2cqi, 18px);
-  }
-}
 
 /* ===== FACILITIES ===== */
 .facilities-section {
@@ -2053,9 +2042,13 @@ body {
     grid-row: 2;
     padding: 12px 14px;
     align-self: auto;
+    /* container-type: size 는 block 방향 높이를 0으로 만들어버림 → inline-size로 교체 */
+    container-type: inline-size;
   }
 
   .room-all-features-list {
+    /* flex:1(flex-basis:0) 은 부모 auto 높이 안에서 0이 됨 → none으로 교체 */
+    flex: none;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 8px 16px;
@@ -2064,6 +2057,16 @@ body {
 
   .room-all-features-list li {
     width: calc(50% - 8px);
+    font-size: 0.78rem;
+  }
+
+  .room-all-features-title {
+    font-size: 0.72rem;
+  }
+
+  .room-feature-icon {
+    width: 14px;
+    height: 14px;
   }
 
   .rooms-tabs {
