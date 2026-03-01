@@ -64,7 +64,7 @@ export default function InquiryPage() {
             >
               <span className="quick-btn-icon">💛</span>
               <span className="quick-btn-label">카카오 문의</span>
-              <span className="quick-btn-sub">카카오플러스친구</span>
+              <span className="quick-btn-sub">카카오톡</span>
             </a>
             <a
               href={NAVER_TALK}

@@ -365,7 +365,7 @@ function ContactBar() {
         className="contact-bar-item"
       >
         <MessageCircle className="contact-bar-icon" size={22} />
-        <span className="contact-bar-text">카카오플러스친구</span>
+        <span className="contact-bar-text">카카오톡</span>
       </a>
       <a
         href="https://naver.me/xtgBWNNn"
