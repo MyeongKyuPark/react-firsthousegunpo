@@ -564,7 +564,37 @@ body {
 }
 
 .room-card-swiper .swiper-slide {
+  position: relative;
   height: 100%;
+}
+
+.room-card-slide-label {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: 50px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.room-card-swiper .swiper-button-next,
+.room-card-swiper .swiper-button-prev {
+  width: 28px;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 50%;
+  color: white;
+}
+
+.room-card-swiper .swiper-button-next::after,
+.room-card-swiper .swiper-button-prev::after {
+  font-size: 11px;
+  font-weight: 900;
 }
 
 .room-card-image {
@@ -811,11 +841,41 @@ body {
 
 /* Slider — right panel */
 .room-detail-slider-wrap {
-  position: relative;
   flex: 1;
   min-width: 0;
   overflow: hidden;
   background: #111;
+  display: flex;
+  flex-direction: column;
+}
+
+.room-detail-view-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background: rgba(0, 0, 0, 0.65);
+  flex-shrink: 0;
+}
+
+.room-detail-view-pill {
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 3px 11px;
+  border-radius: 50px;
+}
+
+.room-detail-view-count {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.7rem;
+}
+
+.room-detail-view-swiper-wrap {
+  flex: 1;
+  min-height: 0;
+  position: relative;
 }
 
 .room-detail-swiper {
@@ -832,19 +892,6 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.room-detail-slide-label {
-  position: absolute;
-  bottom: 14px;
-  left: 14px;
-  color: white;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  padding: 4px 12px;
-  border-radius: 50px;
-  z-index: 2;
 }
 
 /* Swiper nav arrows in modal */

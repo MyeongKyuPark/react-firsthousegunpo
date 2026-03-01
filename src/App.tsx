@@ -13,20 +13,44 @@ import heroSlide3 from './assets/hero_slider/main_clothes.jpg'
 import heroSlide4 from './assets/hero_slider/main_eating.png'
 
 // Rooms – premium
+import premiumOutsideHero from './assets/rooms/premium/outside/Premium_Outside_Hero.png'
 import premiumOutside from './assets/rooms/premium/outside/outside.jpg'
-import premiumInside from './assets/rooms/premium/inside/inside.jpg'
+import premiumOutsideBroadView from './assets/rooms/premium/outside/broad view.png'
+import premiumOutsideNarrowView from './assets/rooms/premium/outside/narrow view.png'
+import premiumInsideHero from './assets/rooms/premium/inside/Premium_Inside_Hero.jpg'
+import premiumInsideReading from './assets/rooms/premium/inside/premium inside_reading.png'
+import premiumInsideReading2 from './assets/rooms/premium/inside/premium inside_reading2.png'
+import premiumInsideWorking from './assets/rooms/premium/inside/premium inside_working.png'
 
 // Rooms – deluxe
-import deluxeOutside from './assets/rooms/deluxe/outside/outside.jpg'
-import deluxeInside from './assets/rooms/deluxe/inside/inside.jpg'
+import deluxeOutsideHero from './assets/rooms/deluxe/outside/Deluxe_Outside_Hero.png'
+import deluxeOutsideReading from './assets/rooms/deluxe/outside/deluxe outside_reading.png'
+import deluxeOutsideWorking from './assets/rooms/deluxe/outside/deluxe outside_working.png'
+import deluxeOutsideStudy from './assets/rooms/deluxe/outside/deluxe outside_study.png'
+import deluxeInsideHero from './assets/rooms/deluxe/inside/Deluxe_Inside_Hero.jpg'
+import deluxeInsideStudy from './assets/rooms/deluxe/inside/deluxe inside study.png'
+import deluxeInsideWriting from './assets/rooms/deluxe/inside/deluxe inside writing.png'
+import deluxeInsideWorking from './assets/rooms/deluxe/inside/deluxe inside working.png'
 
 // Rooms – standard
-import standardOutside from './assets/rooms/standard/outside/outside.jpg'
-import standardInside from './assets/rooms/standard/inside/inside.jpg'
+import standardOutsideHero from './assets/rooms/standard/outside/Standard_Outside_Hero.png'
+import standardOutside3 from './assets/rooms/standard/outside/standard outside2.png'
+import standardOutsideStudying from './assets/rooms/standard/outside/standard outside studying.png'
+import standardOutsideWorking from './assets/rooms/standard/outside/standard outside_working.png'
+import standardInsideHero from './assets/rooms/standard/inside/Standard_Inside_Hero.png'
+import standardInsideNeat from './assets/rooms/standard/inside/standard inside_neat.png'
+import standardInsideReading from './assets/rooms/standard/inside/standard inside_reading.png'
+import standardInsideWorking from './assets/rooms/standard/inside/standard inside_working.png'
 
 // Rooms – study
-import studyOutside from './assets/rooms/study/outside/outside.jpg'
-import studyInside from './assets/rooms/study/inside/inside.jpg'
+import studyOutsideHero from './assets/rooms/study/outside/Study_Outside_Hero.png'
+import studyOutsideWorking from './assets/rooms/study/outside/study outside_working.png'
+import studyOutsideWorking2 from './assets/rooms/study/outside/study outside_working2.png'
+import studyOutsideStudy from './assets/rooms/study/outside/study outside_study.png'
+import studyInsideHero from './assets/rooms/study/inside/Study_Inside_Hero.png'
+import studyInsideWorking from './assets/rooms/study/inside/study inside_working.png'
+import studyInsideWorking2 from './assets/rooms/study/inside/study inside_working2.png'
+import studyInsideStudy from './assets/rooms/study/inside/study inside_study.png'
 
 // Facilities
 import kitchen from './assets/facilities/kitchen.jpg'
@@ -57,7 +81,7 @@ const heroSlides = [
 ]
 
 interface ViewData {
-  img: string
+  imgs: string[]
   price: string
   viewLabel: string
   features: string[]
@@ -82,14 +106,14 @@ const rooms: Room[] = [
     color: '#FF7E67',
     views: {
       outside: {
-        img: premiumOutside,
+        imgs: [premiumOutsideHero, premiumOutside, premiumOutsideBroadView, premiumOutsideNarrowView],
         price: '월 45만원',
         viewLabel: '외창형',
         features: ['막힘없는 뷰', '모던 가구', '독립 창문', '개방감 UP'],
         desc: '세련된 인테리어와 외창의 개방감이 조화로운 최상위 공간입니다.',
       },
       inside: {
-        img: premiumInside,
+        imgs: [premiumInsideHero, premiumInsideReading, premiumInsideReading2, premiumInsideWorking],
         price: '월 42만원',
         viewLabel: '내창형',
         features: ['조용한 환경', '세련된 조명', '프리미엄 가구', '안정감'],
@@ -105,14 +129,14 @@ const rooms: Room[] = [
     color: '#FF9999',
     views: {
       outside: {
-        img: deluxeOutside,
+        imgs: [deluxeOutsideHero, deluxeOutsideReading, deluxeOutsideWorking, deluxeOutsideStudy],
         price: '월 42만원',
         viewLabel: '외창형',
         features: ['탁 트인 외창', '최대 수납 공간', '프라이빗 환기', '넓은 공간'],
         desc: '가장 넓은 공간과 풍부한 채광을 자랑하는 최고급 디럭스 룸입니다.',
       },
       inside: {
-        img: deluxeInside,
+        imgs: [deluxeInsideHero, deluxeInsideStudy, deluxeInsideWriting, deluxeInsideWorking],
         price: '월 40만원',
         viewLabel: '내창형',
         features: ['아늑한 분위기', '충분한 수납', '조용한 환경', '넓은 공간'],
@@ -128,14 +152,14 @@ const rooms: Room[] = [
     color: '#FF7E67',
     views: {
       outside: {
-        img: standardOutside,
+        imgs: [standardOutsideHero, standardOutside3, standardOutsideStudying, standardOutsideWorking],
         price: '월 38만원',
         viewLabel: '외창형',
         features: ['햇살 맛집', '최고의 환기', '풍부한 채광', '가성비 최고'],
         desc: '풍부한 채광과 환기가 특징인 가성비 최고의 방입니다.',
       },
       inside: {
-        img: standardInside,
+        imgs: [standardInsideHero, standardInsideNeat, standardInsideReading, standardInsideWorking],
         price: '월 36만원',
         viewLabel: '내창형',
         features: ['조용한 환경', '실속형 가격', '아늑한 공간', '집중 환경'],
@@ -151,14 +175,14 @@ const rooms: Room[] = [
     color: '#FF9999',
     views: {
       outside: {
-        img: studyOutside,
+        imgs: [studyOutsideHero, studyOutsideWorking, studyOutsideWorking2, studyOutsideStudy],
         price: '월 33만원',
         viewLabel: '외창형',
         features: ['와이드 데스크', '햇살 맛집', '최적 집중', '쾌적한 환기'],
         desc: '넓은 데스크와 쾌적한 환기로 공부에 집중하기 최적화된 공간입니다.',
       },
       inside: {
-        img: studyInside,
+        imgs: [studyInsideHero, studyInsideWorking, studyInsideWorking2, studyInsideStudy],
         price: '월 33만원',
         viewLabel: '내창형',
         features: ['와이드 데스크', '완벽한 정숙', '고효율 집중', '합리적 가격'],
@@ -350,10 +374,6 @@ function ContactBar() {
 /* ─────────── Room Detail Modal ─────────── */
 function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' | 'inside'; onClose: () => void }) {
   const data = room.views[view]
-  const allImages = [
-    { img: room.views.outside.img, label: room.views.outside.viewLabel },
-    { img: room.views.inside.img, label: room.views.inside.viewLabel },
-  ]
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -415,20 +435,27 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
 
         {/* Right: photo slider */}
         <div className="room-detail-slider-wrap">
-          <Swiper
-            modules={[Pagination, Navigation]}
-            pagination={{ clickable: true }}
-            navigation
-            loop={true}
-            className="room-detail-swiper"
-          >
-            {allImages.map((img) => (
-              <SwiperSlide key={img.label}>
-                <img src={img.img} alt={`${room.label} ${img.label}`} />
-                <span className="room-detail-slide-label" style={{ background: room.color }}>{img.label}</span>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          <div className="room-detail-view-header">
+            <span className="room-detail-view-pill" style={{ background: room.color }}>
+              {data.viewLabel}
+            </span>
+            <span className="room-detail-view-count">{data.imgs.length}장</span>
+          </div>
+          <div className="room-detail-view-swiper-wrap">
+            <Swiper
+              modules={[Pagination, Navigation]}
+              pagination={{ clickable: true }}
+              navigation
+              loop={data.imgs.length > 1}
+              className="room-detail-swiper"
+            >
+              {data.imgs.map((img, i) => (
+                <SwiperSlide key={i}>
+                  <img src={img} alt={`${room.label} ${data.viewLabel} ${i + 1}`} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
         </div>
       </div>
     </div>
@@ -461,14 +488,19 @@ function RoomViewCard({ room, view, onDetailClick, onViewToggle }: { room: Room;
           <span className="room-card-class-badge">{room.badge}</span>
         )}
         <Swiper
-          modules={[Pagination]}
+          key={view}
+          modules={[Pagination, Navigation]}
           pagination={{ clickable: true }}
-          loop={false}
+          navigation
+          loop={data.imgs.length > 1}
           className="room-card-swiper"
         >
-          <SwiperSlide>
-            <img src={data.img} alt={`${room.label} ${data.viewLabel}`} className="room-card-image" />
-          </SwiperSlide>
+          {data.imgs.map((img, i) => (
+            <SwiperSlide key={i}>
+              <img src={img} alt={`${room.label} ${data.viewLabel} ${i + 1}`} className="room-card-image" />
+              <span className="room-card-slide-label" style={{ background: room.color }}>{data.viewLabel}</span>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
       <div className="room-card-body">
