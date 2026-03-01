@@ -479,7 +479,7 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
           </div>
           <div className="room-detail-view-swiper-wrap">
             <Swiper
-              key={activeView}
+              key={`${activeRoom.id}-${activeView}`}
               modules={[Pagination, Navigation]}
               pagination={{ clickable: true }}
               navigation
