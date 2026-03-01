@@ -327,7 +327,7 @@ function Hero() {
       <div className="hero-content">
         <h1 className="hero-title">
           군포역 도보 1분,<br />
-          <span>가장 안심되는 나의 첫 시작.</span>
+          <span>가장 안심되는<br />나의 첫 시작.</span>
         </h1>
         <p className="hero-desc">
           초역세권의 편리함과 2030 여성만을 위한<br />프리미엄 안심 공간을 경험하세요.
