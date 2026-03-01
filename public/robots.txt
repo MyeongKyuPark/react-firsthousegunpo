@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://react-firsthousegunpo.pages.dev/sitemap.xml
