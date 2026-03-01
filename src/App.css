@@ -1122,8 +1122,8 @@ body {
   min-width: 0;
   overflow: hidden;
   gap: 12px 24px;
-  padding: 16px 20px;
-  margin-top: 20px;
+  padding: 12px 10px;
+  margin-top: 16px;
   background: var(--light);
   border-radius: 12px;
 }
@@ -1994,16 +1994,8 @@ body {
   }
 
   .room-all-features {
-    gap: 8px 16px;
-    padding: 14px 16px;
-  }
-
-  .room-all-features-list li {
-    font-size: 0.78rem;
-  }
-
-  .room-all-features-title {
-    font-size: 0.78rem;
+    padding: 10px 8px;
+    margin-top: 12px;
   }
 
   .rooms-cards-wrap {
