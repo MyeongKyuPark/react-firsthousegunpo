@@ -610,7 +610,7 @@ function Rooms() {
               <span className="room-all-features-title">All room features:</span>
               <ul className="room-all-features-list">
                 <li><Refrigerator className="room-feature-icon" />개인 냉장고</li>
-                <li><Zap className="room-feature-icon" />가스·전기·수도세 무료</li>
+                <li><Zap className="room-feature-icon" />가스·전기·수도세<br />무료</li>
                 <li><Wifi className="room-feature-icon" />와이파이</li>
                 <li><Monitor className="room-feature-icon" />책상·의자</li>
                 <li><Shirt className="room-feature-icon" />벽걸이 행거</li>

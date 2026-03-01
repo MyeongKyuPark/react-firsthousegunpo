@@ -1153,9 +1153,7 @@ body {
   font-weight: 600;
   color: var(--dark);
   min-width: 0;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .room-feature-icon {
@@ -2051,6 +2049,7 @@ body {
   .room-all-features-list li {
     font-size: 0.6rem;
     gap: 4px;
+    align-items: flex-start;
   }
 
   .room-feature-icon {
