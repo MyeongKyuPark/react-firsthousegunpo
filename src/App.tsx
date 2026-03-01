@@ -10,7 +10,7 @@ import { Autoplay, Pagination, EffectFade, Navigation } from 'swiper/modules'
 import heroSlide1 from './assets/hero_slider/main.jpg'
 import heroSlide2 from './assets/hero_slider/main2_coffee.jpg'
 import heroSlide3 from './assets/hero_slider/main_clothes.jpg'
-import heroSlide4 from './assets/hero_slider/main_eating.png'
+import premiumOutsideEating from './assets/rooms/premium/outside/Premium_Outside_Eating.png'
 
 // Rooms – premium
 import premiumOutsideHero from './assets/rooms/premium/outside/Premium_Outside_Hero.png'
@@ -76,7 +76,6 @@ const heroSlides = [
   { img: heroSlide1, label: '메인 1' },
   { img: heroSlide2, label: '메인 2' },
   { img: heroSlide3, label: '메인 3' },
-  { img: heroSlide4, label: '메인 4' },
 ]
 
 interface ViewData {
@@ -105,7 +104,7 @@ const rooms: Room[] = [
     color: '#FF7E67',
     views: {
       outside: {
-        imgs: [premiumOutsideHero, premiumOutsideBroadView, premiumOutsideNarrowView, premiumOutsideWriting],
+        imgs: [premiumOutsideHero, premiumOutsideBroadView, premiumOutsideNarrowView, premiumOutsideWriting, premiumOutsideEating],
         price: '월 45만원',
         viewLabel: '외창형',
         features: ['막힘없는 뷰', '모던 가구', '독립 창문', '개방감 UP'],
