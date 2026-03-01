@@ -2184,18 +2184,15 @@ body {
     height: 0;
   }
 
+  /* X 버튼을 왼쪽으로 → 토글은 오른쪽에 자유롭게 */
   .room-detail-close {
     position: fixed;
     top: 14px;
-    right: 14px;
+    left: 14px;
+    right: auto;
     z-index: 10001;
     background: white;
     border: 1.5px solid #cbd5e0;
-  }
-
-  /* X 버튼(right:14px, width:36px)과 토글 겹침 방지 */
-  .room-detail-view-header {
-    padding-right: 58px;
   }
 
   .room-detail-slider-wrap {
