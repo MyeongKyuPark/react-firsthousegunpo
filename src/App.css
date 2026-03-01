@@ -298,8 +298,8 @@ body {
 }
 
 .contact-bar-icon {
-  font-size: 1.4rem;
-  line-height: 1;
+  color: white;
+  flex-shrink: 0;
 }
 
 .contact-bar-text {
@@ -1158,11 +1158,12 @@ body {
   min-width: 0;
 }
 
-.room-all-features-list li img {
+.room-feature-icon {
   width: clamp(10px, 2.5cqb, 16px);
   height: clamp(10px, 2.5cqb, 16px);
   flex-shrink: 0;
-  object-fit: contain;
+  color: #a0aec0;
+  stroke-width: 2;
 }
 
 /* 모바일(≤900px): 너비 기준 cqi 자동 조절 */
@@ -1171,7 +1172,7 @@ body {
   .room-all-features-list li {
     font-size: clamp(0.3rem, 4cqi, 0.65rem);
   }
-  .room-all-features-list li img {
+  .room-feature-icon {
     width: clamp(10px, 6cqi, 16px);
     height: clamp(10px, 6cqi, 16px);
   }

@@ -59,13 +59,8 @@ import shower from './assets/facilities/shower/Shower_Hero.jpg'
 import cinema from './assets/facilities/cinema/Cinema_Hero.png'
 import washtower from './assets/facilities/washtower/Washtower_Hero.jpg'
 
-// Room feature icons
-import iconFridge from './assets/icon/fridge.svg'
-import iconWifi from './assets/icon/wifi.svg'
-import iconBills from './assets/icon/bills.svg'
-import iconDesk from './assets/icon/desk.svg'
-import iconHanger from './assets/icon/hanger.svg'
-import iconShelf from './assets/icon/shelf.svg'
+// Icons (lucide-react)
+import { Refrigerator, Wifi, Zap, Monitor, Shirt, Archive, Phone, MessageCircle, MapPin } from 'lucide-react'
 
 // Security
 import security from './assets/security/security.png'
@@ -355,7 +350,7 @@ function ContactBar() {
   return (
     <div className="contact-bar">
       <a href="tel:0507-1492-5963" className="contact-bar-item">
-        <span className="contact-bar-icon">📞</span>
+        <Phone className="contact-bar-icon" size={22} />
         <span className="contact-bar-text">전화 문의</span>
       </a>
       <a
@@ -364,7 +359,7 @@ function ContactBar() {
         rel="noopener noreferrer"
         className="contact-bar-item"
       >
-        <span className="contact-bar-icon">💛</span>
+        <MessageCircle className="contact-bar-icon" size={22} />
         <span className="contact-bar-text">카카오플러스친구</span>
       </a>
       <a
@@ -373,7 +368,7 @@ function ContactBar() {
         rel="noopener noreferrer"
         className="contact-bar-item"
       >
-        <span className="contact-bar-icon">🗺</span>
+        <MapPin className="contact-bar-icon" size={22} />
         <span className="contact-bar-text">네이버지도</span>
       </a>
     </div>
@@ -609,12 +604,12 @@ function Rooms() {
             <div className="room-all-features">
               <span className="room-all-features-title">All room features:</span>
               <ul className="room-all-features-list">
-                <li><img src={iconFridge} alt="개인 냉장고" />개인 냉장고</li>
-                <li><img src={iconBills} alt="가스·전기·수도세 무료" />가스·전기·수도세 무료</li>
-                <li><img src={iconWifi} alt="와이파이" />와이파이</li>
-                <li><img src={iconDesk} alt="책상·의자" />책상·의자</li>
-                <li><img src={iconHanger} alt="벽걸이 행거" />벽걸이 행거</li>
-                <li><img src={iconShelf} alt="선반" />선반</li>
+                <li><Refrigerator className="room-feature-icon" />개인 냉장고</li>
+                <li><Zap className="room-feature-icon" />가스·전기·수도세 무료</li>
+                <li><Wifi className="room-feature-icon" />와이파이</li>
+                <li><Monitor className="room-feature-icon" />책상·의자</li>
+                <li><Shirt className="room-feature-icon" />벽걸이 행거</li>
+                <li><Archive className="room-feature-icon" />선반</li>
               </ul>
             </div>
           </div>
