@@ -208,7 +208,6 @@ function Header() {
                 onClick={() => setLang('ko')}
                 aria-label="한국어"
               >KO</button>
-              <span>|</span>
               <button
                 className={lang === 'en' ? 'active' : ''}
                 onClick={() => setLang('en')}

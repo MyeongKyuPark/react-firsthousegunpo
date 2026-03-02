@@ -178,31 +178,30 @@ body {
 .lang-switch {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 3px 4px;
+  gap: 2px;
 }
 
-.lang-switch span {
-  color: rgba(255, 255, 255, 0.4);
-  font-weight: 300;
-}
-
-.header.scrolled .lang-switch span {
-  color: #cbd5e0;
+.header.scrolled .lang-switch {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: #e2e8f0;
 }
 
 .lang-switch button {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 3px 6px;
-  border-radius: 4px;
-  color: rgba(255, 255, 255, 0.6);
+  padding: 5px 11px;
+  border-radius: 16px;
+  color: rgba(255, 255, 255, 0.7);
   transition: var(--transition);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
 }
 
 .lang-switch button:hover {
@@ -210,8 +209,9 @@ body {
 }
 
 .lang-switch button.active {
+  background: var(--white);
   color: var(--primary);
-  background: rgba(255, 126, 103, 0.15);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
 }
 
 .header.scrolled .lang-switch button {
@@ -223,8 +223,8 @@ body {
 }
 
 .header.scrolled .lang-switch button.active {
-  color: var(--primary);
-  background: rgba(255, 126, 103, 0.1);
+  background: var(--primary);
+  color: var(--white);
 }
 
 .hamburger {
