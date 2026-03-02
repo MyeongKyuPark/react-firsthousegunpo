@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useLanguage } from '../i18n/LanguageContext'
+import { translations } from '../i18n/translations'
 
 const NAVER_TALK = 'https://talk.naver.com/W6H2WZ6'
 
@@ -12,6 +14,8 @@ export default function InquiryPage() {
     period: '',
     message: '',
   })
+  const { lang } = useLanguage()
+  const t = translations[lang].inquiry
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -31,7 +35,6 @@ export default function InquiryPage() {
         setSubmitted(true)
       }
     } catch {
-      // fallback: show thank you anyway for demo
       setSubmitted(true)
     }
   }
@@ -40,20 +43,19 @@ export default function InquiryPage() {
     <div className="page-wrapper">
       <div className="page-hero inquiry-hero">
         <div className="page-hero-content">
-          <p className="section-label">INQUIRY</p>
-          <h1 className="page-title">입실 문의</h1>
-          <p className="page-subtitle">빠른 답변으로 꼭 맞는 방을 찾아드립니다</p>
+          <p className="section-label">{t.label}</p>
+          <h1 className="page-title">{t.title}</h1>
+          <p className="page-subtitle">{t.subtitle}</p>
         </div>
       </div>
 
       <div className="section-inner inquiry-container">
-        {/* 빠른 문의 버튼 */}
         <div className="quick-contact-section">
-          <h2 className="quick-contact-title">빠른 문의</h2>
+          <h2 className="quick-contact-title">{t.quickTitle}</h2>
           <div className="quick-contact-grid">
             <a href="tel:0507-1492-5963" className="quick-btn quick-btn-phone">
               <span className="quick-btn-icon">📞</span>
-              <span className="quick-btn-label">전화 문의</span>
+              <span className="quick-btn-label">{t.phoneLabel}</span>
               <span className="quick-btn-sub">0507-1492-5963</span>
             </a>
             <a
@@ -63,8 +65,8 @@ export default function InquiryPage() {
               className="quick-btn quick-btn-kakao"
             >
               <span className="quick-btn-icon">💛</span>
-              <span className="quick-btn-label">카카오 문의</span>
-              <span className="quick-btn-sub">카카오톡</span>
+              <span className="quick-btn-label">{t.kakaoLabel}</span>
+              <span className="quick-btn-sub">{t.kakaoSub}</span>
             </a>
             <a
               href={NAVER_TALK}
@@ -73,33 +75,32 @@ export default function InquiryPage() {
               className="quick-btn quick-btn-naver"
             >
               <span className="quick-btn-icon">💬</span>
-              <span className="quick-btn-label">네이버 톡톡</span>
-              <span className="quick-btn-sub">바로 채팅 문의</span>
+              <span className="quick-btn-label">{t.naverLabel}</span>
+              <span className="quick-btn-sub">{t.naverSub}</span>
             </a>
           </div>
         </div>
 
-        {/* 문의 폼 */}
         <div className="inquiry-form-section">
-          <h2 className="inquiry-form-title">문의 양식</h2>
-          <p className="inquiry-form-sub">아래 양식을 작성해 주시면 빠르게 연락드리겠습니다.</p>
+          <h2 className="inquiry-form-title">{t.formTitle}</h2>
+          <p className="inquiry-form-sub">{t.formSub}</p>
 
           {submitted ? (
             <div className="inquiry-thank-you">
               <span className="thank-you-icon">🎉</span>
-              <h3>문의가 접수되었습니다!</h3>
-              <p>빠른 시일 내에 연락드리겠습니다.<br />감사합니다 😊</p>
+              <h3>{t.thankYouTitle}</h3>
+              <p style={{ whiteSpace: 'pre-line' }}>{t.thankYouDesc}</p>
             </div>
           ) : (
             <form className="inquiry-form" onSubmit={handleSubmit}>
               <div className="form-group">
-                <label className="form-label" htmlFor="name">이름</label>
+                <label className="form-label" htmlFor="name">{t.labelName}</label>
                 <input
                   id="name"
                   name="name"
                   type="text"
                   className="form-input"
-                  placeholder="이름을 입력해 주세요"
+                  placeholder={t.placeholderName}
                   value={formData.name}
                   onChange={handleChange}
                   required
@@ -107,7 +108,7 @@ export default function InquiryPage() {
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="phone">연락처</label>
+                <label className="form-label" htmlFor="phone">{t.labelPhone}</label>
                 <input
                   id="phone"
                   name="phone"
@@ -121,7 +122,7 @@ export default function InquiryPage() {
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="date">입실 예정일</label>
+                <label className="form-label" htmlFor="date">{t.labelDate}</label>
                 <input
                   id="date"
                   name="date"
@@ -134,7 +135,7 @@ export default function InquiryPage() {
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="roomType">원하는 방 형태</label>
+                <label className="form-label" htmlFor="roomType">{t.labelRoomType}</label>
                 <select
                   id="roomType"
                   name="roomType"
@@ -143,20 +144,15 @@ export default function InquiryPage() {
                   onChange={handleChange}
                   required
                 >
-                  <option value="">선택해 주세요</option>
-                  <option value="프리미엄 외창형">프리미엄 외창형</option>
-                  <option value="프리미엄 내창형">프리미엄 내창형</option>
-                  <option value="디럭스 외창형">디럭스 외창형</option>
-                  <option value="디럭스 내창형">디럭스 내창형</option>
-                  <option value="스탠다드 외창형">스탠다드 외창형</option>
-                  <option value="스탠다드 내창형">스탠다드 내창형</option>
-                  <option value="스터디 외창형">스터디 외창형</option>
-                  <option value="스터디 내창형">스터디 내창형</option>
+                  <option value="">{t.selectPlaceholder}</option>
+                  {t.roomTypeOptions.map((opt) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
                 </select>
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="period">입주 기간</label>
+                <label className="form-label" htmlFor="period">{t.labelPeriod}</label>
                 <select
                   id="period"
                   name="period"
@@ -165,24 +161,20 @@ export default function InquiryPage() {
                   onChange={handleChange}
                   required
                 >
-                  <option value="">선택해 주세요</option>
-                  <option value="1주 단기">1주 단기</option>
-                  <option value="2주 단기">2주 단기</option>
-                  <option value="1개월">1개월</option>
-                  <option value="2개월">2개월</option>
-                  <option value="3개월">3개월</option>
-                  <option value="6개월">6개월</option>
-                  <option value="장기">장기</option>
+                  <option value="">{t.selectPlaceholder}</option>
+                  {t.periodOptions.map((opt) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
                 </select>
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="message">문의사항</label>
+                <label className="form-label" htmlFor="message">{t.labelMessage}</label>
                 <textarea
                   id="message"
                   name="message"
                   className="form-input form-textarea"
-                  placeholder="궁금하신 점이나 특별히 원하시는 조건을 자유롭게 입력해 주세요."
+                  placeholder={t.placeholderMessage}
                   value={formData.message}
                   onChange={handleChange}
                   rows={5}
@@ -190,7 +182,7 @@ export default function InquiryPage() {
               </div>
 
               <button type="submit" className="btn btn-primary form-submit-btn">
-                문의 보내기
+                {t.submitBtn}
               </button>
             </form>
           )}

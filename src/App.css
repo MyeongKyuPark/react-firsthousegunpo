@@ -168,6 +168,65 @@ body {
   box-shadow: 0 4px 15px rgba(3, 199, 90, 0.4);
 }
 
+/* ===== LANG SWITCH ===== */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.lang-switch span {
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 300;
+}
+
+.header.scrolled .lang-switch span {
+  color: #cbd5e0;
+}
+
+.lang-switch button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.6);
+  transition: var(--transition);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.lang-switch button:hover {
+  color: var(--white);
+}
+
+.lang-switch button.active {
+  color: var(--primary);
+  background: rgba(255, 126, 103, 0.15);
+}
+
+.header.scrolled .lang-switch button {
+  color: #718096;
+}
+
+.header.scrolled .lang-switch button:hover {
+  color: var(--dark);
+}
+
+.header.scrolled .lang-switch button.active {
+  color: var(--primary);
+  background: rgba(255, 126, 103, 0.1);
+}
+
 .hamburger {
   display: none;
   flex-direction: column;

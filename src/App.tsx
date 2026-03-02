@@ -65,6 +65,9 @@ import { Refrigerator, Wifi, Zap, Monitor, Shirt, Archive, Phone, MessageCircle,
 // Security
 import security from './assets/security/security.png'
 
+import { useLanguage } from './i18n/LanguageContext'
+import { translations } from './i18n/translations'
+
 const InquiryPage = lazy(() => import('./pages/InquiryPage'))
 const FaqPage = lazy(() => import('./pages/FaqPage'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
@@ -72,10 +75,14 @@ const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
 
 const NAVER_TALK = 'https://talk.naver.com/W6H2WZ6'
 
-const heroSlides = [
-  { img: heroSlide1, label: '메인 1' },
-  { img: heroSlide2, label: '메인 2' },
-  { img: heroSlide3, label: '메인 3' },
+const facilityImgs = [kitchen, shower, cinema, washtower]
+
+const nearbyIcons = [
+  <Train size={18} />,
+  <ShoppingBag size={18} />,
+  <BookOpen size={18} />,
+  <Shield size={18} />,
+  <TreePine size={18} />,
 ]
 
 interface ViewData {
@@ -95,131 +102,54 @@ interface Room {
   views: { outside: ViewData; inside: ViewData }
 }
 
-const rooms: Room[] = [
-  {
-    id: 'premium',
-    name: 'Premium',
-    label: '프리미엄',
-    badge: 'BEST',
-    color: '#FF7E67',
-    views: {
-      outside: {
-        imgs: [premiumOutsideHero, premiumOutsideBroadView, premiumOutsideNarrowView, premiumOutsideWriting, premiumOutsideEating],
-        price: '월 45만원',
-        viewLabel: '외창형',
-        features: ['막힘없는 뷰', '모던 가구', '독립 창문', '개방감 UP'],
-        desc: '세련된 인테리어와 외창의 개방감이 조화로운 최상위 공간입니다.',
-      },
-      inside: {
-        imgs: [premiumInsideHero, premiumInsideReading, premiumInsideReading2, premiumInsideWorking],
-        price: '월 42만원',
-        viewLabel: '내창형',
-        features: ['조용한 환경', '세련된 조명', '프리미엄 가구', '안정감'],
-        desc: '고급스러운 인테리어에 조용함을 더한 고품격 안심 공간입니다.',
+function buildRooms(rd: typeof translations.ko.rooms.data): Room[] {
+  return [
+    {
+      id: 'premium',
+      name: 'Premium',
+      label: rd.premium.label,
+      badge: 'BEST',
+      color: '#FF7E67',
+      views: {
+        outside: { imgs: [premiumOutsideHero, premiumOutsideBroadView, premiumOutsideNarrowView, premiumOutsideWriting, premiumOutsideEating], ...rd.premium.outside },
+        inside: { imgs: [premiumInsideHero, premiumInsideReading, premiumInsideReading2, premiumInsideWorking], ...rd.premium.inside },
       },
     },
-  },
-  {
-    id: 'deluxe',
-    name: 'Deluxe',
-    label: '디럭스',
-    badge: 'POPULAR',
-    color: '#FF9999',
-    views: {
-      outside: {
-        imgs: [deluxeOutsideHero, deluxeOutsideReading, deluxeOutsideWorking, deluxeOutsideStudy],
-        price: '월 42만원',
-        viewLabel: '외창형',
-        features: ['탁 트인 외창', '최대 수납 공간', '프라이빗 환기', '넓은 공간'],
-        desc: '가장 넓은 공간과 풍부한 채광을 자랑하는 최고급 디럭스 룸입니다.',
-      },
-      inside: {
-        imgs: [deluxeInsideHero, deluxeInsideStudy, deluxeInsideWriting, deluxeInsideWorking],
-        price: '월 40만원',
-        viewLabel: '내창형',
-        features: ['아늑한 분위기', '충분한 수납', '조용한 환경', '넓은 공간'],
-        desc: '넓고 아늑한 공간에서 편안한 일상을 누릴 수 있는 디럭스 룸입니다.',
+    {
+      id: 'deluxe',
+      name: 'Deluxe',
+      label: rd.deluxe.label,
+      badge: 'POPULAR',
+      color: '#FF9999',
+      views: {
+        outside: { imgs: [deluxeOutsideHero, deluxeOutsideReading, deluxeOutsideWorking, deluxeOutsideStudy], ...rd.deluxe.outside },
+        inside: { imgs: [deluxeInsideHero, deluxeInsideStudy, deluxeInsideWriting, deluxeInsideWorking], ...rd.deluxe.inside },
       },
     },
-  },
-  {
-    id: 'standard',
-    name: 'Standard',
-    label: '스탠다드',
-    badge: null,
-    color: '#FF7E67',
-    views: {
-      outside: {
-        imgs: [standardOutsideHero, standardOutside3, standardOutsideStudying, standardOutsideCoffee, standardOutsideWorking],
-        price: '월 38만원',
-        viewLabel: '외창형',
-        features: ['햇살 맛집', '최고의 환기', '풍부한 채광', '가성비 최고'],
-        desc: '풍부한 채광과 환기가 특징인 가성비 최고의 방입니다.',
-      },
-      inside: {
-        imgs: [standardInsideHero, standardInsideNeat, standardInsideReading, standardInsideWorking],
-        price: '월 36만원',
-        viewLabel: '내창형',
-        features: ['조용한 환경', '실속형 가격', '아늑한 공간', '집중 환경'],
-        desc: '실속을 중시하는 분들을 위한 조용하고 아늑한 방입니다.',
+    {
+      id: 'standard',
+      name: 'Standard',
+      label: rd.standard.label,
+      badge: null,
+      color: '#FF7E67',
+      views: {
+        outside: { imgs: [standardOutsideHero, standardOutside3, standardOutsideStudying, standardOutsideCoffee, standardOutsideWorking], ...rd.standard.outside },
+        inside: { imgs: [standardInsideHero, standardInsideNeat, standardInsideReading, standardInsideWorking], ...rd.standard.inside },
       },
     },
-  },
-  {
-    id: 'study',
-    name: 'Study',
-    label: '스터디',
-    badge: null,
-    color: '#FF9999',
-    views: {
-      outside: {
-        imgs: [studyOutsideHero, studyOutsideWorking, studyOutsideWorking2, studyOutsideStudy],
-        price: '월 33만원',
-        viewLabel: '외창형',
-        features: ['와이드 데스크', '햇살 맛집', '최적 집중', '쾌적한 환기'],
-        desc: '넓은 데스크와 쾌적한 환기로 공부에 집중하기 최적화된 공간입니다.',
-      },
-      inside: {
-        imgs: [studyInsideHero, studyInsideWorking, studyInsideWorking2, studyInsideStudy],
-        price: '월 33만원',
-        viewLabel: '내창형',
-        features: ['와이드 데스크', '완벽한 정숙', '고효율 집중', '합리적 가격'],
-        desc: '소음 없이 차분하게 집중할 수 있는 나만의 미니 서재 공간입니다.',
+    {
+      id: 'study',
+      name: 'Study',
+      label: rd.study.label,
+      badge: null,
+      color: '#FF9999',
+      views: {
+        outside: { imgs: [studyOutsideHero, studyOutsideWorking, studyOutsideWorking2, studyOutsideStudy], ...rd.study.outside },
+        inside: { imgs: [studyInsideHero, studyInsideWorking, studyInsideWorking2, studyInsideStudy], ...rd.study.inside },
       },
     },
-  },
-]
-
-const facilities = [
-  {
-    name: '공용 주방',
-    img: kitchen,
-    desc: '인덕션·전자레인지·\n라면 무한 제공!\n스타벅스 원두 커피 &\n탄산음료 상시 무료',
-  },
-  {
-    name: '호텔식 욕실',
-    img: shower,
-    desc: '세스코 바이러스 케어 &\n정기 방역으로 항상\n쾌적하고 위생적인 환경',
-  },
-  {
-    name: '시네마 라운지',
-    img: cinema,
-    desc: '팝콘향 가득한 공간에서\n넷플릭스 프리미엄을\n대형 화면으로 즐기세요',
-  },
-  {
-    name: '워시타워',
-    img: washtower,
-    desc: '세탁기·건조기\n워시타워 2세트 완비',
-  },
-]
-
-const nearby: { icon: React.ReactNode; name: string; desc: string }[] = [
-  { icon: <Train size={18} />, name: '군포역 1번 출구', desc: '도보 1분' },
-  { icon: <ShoppingBag size={18} />, name: '군포역전시장', desc: '장보기 편리한 환경' },
-  { icon: <BookOpen size={18} />, name: '당동도서관', desc: '도보 5분, 집중의 시간' },
-  { icon: <Shield size={18} />, name: '군포지구대', desc: '경찰서 5분 거리 안심 보안' },
-  { icon: <TreePine size={18} />, name: '당정근린공원', desc: '숲세권 산책로 완비' },
-]
+  ]
+}
 
 /* ─────────── Header ─────────── */
 function Header() {
@@ -229,6 +159,8 @@ function Header() {
   const navigate = useNavigate()
   const location = useLocation()
   const isMainPage = location.pathname === '/'
+  const { lang, setLang } = useLanguage()
+  const t = translations[lang]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -263,42 +195,56 @@ function Header() {
         <div className="header-inner">
           <Link to="/" className="logo" style={{ textDecoration: 'none' }}>
             <div className="logo-main">
-              <span className="logo-first">처음</span>하우스
-              <span className="logo-sub">군포역점</span>
+              <span className="logo-first">{t.logo.first}</span>{t.logo.house}
+              <span className="logo-sub">{t.logo.branch}</span>
             </div>
-            <div className="logo-tagline">2030 여성 전용 프리미엄</div>
+            <div className="logo-tagline">{t.logo.tagline}</div>
           </Link>
 
-          <button
-            className={`hamburger ${menuOpen ? 'open' : ''}`}
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="메뉴 열기"
-          >
-            <span /><span /><span />
-          </button>
+          <div className="header-right">
+            <div className="lang-switch">
+              <button
+                className={lang === 'ko' ? 'active' : ''}
+                onClick={() => setLang('ko')}
+                aria-label="한국어"
+              >KO</button>
+              <span>|</span>
+              <button
+                className={lang === 'en' ? 'active' : ''}
+                onClick={() => setLang('en')}
+                aria-label="English"
+              >EN</button>
+            </div>
+            <button
+              className={`hamburger ${menuOpen ? 'open' : ''}`}
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={t.nav.menuOpen}
+            >
+              <span /><span /><span />
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Backdrop and drawer rendered outside header to avoid stacking context clipping */}
       {menuOpen && <div className="nav-backdrop" onClick={() => setMenuOpen(false)} />}
 
       <nav ref={navRef} className={`nav ${menuOpen ? 'open' : ''} ${scrolled || !isMainPage ? 'scrolled' : ''}`}>
-        <button className="nav-close" onClick={() => setMenuOpen(false)} aria-label="메뉴 닫기">✕</button>
+        <button className="nav-close" onClick={() => setMenuOpen(false)} aria-label={t.nav.menuClose}>✕</button>
         <button onClick={() => scrollTo('rooms')}>Rooms</button>
         <button onClick={() => scrollTo('facilities')}>Facilities</button>
         <button onClick={() => scrollTo('security')}>Security</button>
         <button onClick={() => scrollTo('location')}>Location</button>
         <Link to="/inquiry" className="nav-link" onClick={() => setMenuOpen(false)}>
-          입실문의
+          {t.nav.inquiry}
         </Link>
         <Link to="/faq" className="nav-link" onClick={() => setMenuOpen(false)}>
           FAQ
         </Link>
         <Link to="/about" className="nav-link" onClick={() => setMenuOpen(false)}>
-          소개
+          {t.nav.about}
         </Link>
         <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer" className="nav-cta">
-          네이버 톡톡
+          {t.nav.naverTalk}
         </a>
       </nav>
     </>
@@ -307,6 +253,13 @@ function Header() {
 
 /* ─────────── Hero (Swiper) ─────────── */
 function Hero() {
+  const { lang } = useLanguage()
+  const t = translations[lang].hero
+  const heroSlides = [
+    { img: heroSlide1, label: 'Main 1' },
+    { img: heroSlide2, label: 'Main 2' },
+    { img: heroSlide3, label: 'Main 3' },
+  ]
   return (
     <section id="hero" className="hero">
       <Swiper
@@ -326,18 +279,18 @@ function Hero() {
       <div className="hero-overlay" />
       <div className="hero-content">
         <h1 className="hero-title">
-          군포역 도보 1분,<br />
-          <span>가장 안심되는<br />나의 첫 시작.</span>
+          {t.title1}<br />
+          <span>{t.title2}<br />{t.title3}</span>
         </h1>
         <p className="hero-desc">
-          초역세권의 편리함과 2030 여성만을 위한<br />프리미엄 안심 공간을 경험하세요.
+          {t.desc1}<br />{t.desc2}
         </p>
         <div className="hero-buttons">
           <button className="btn btn-primary" onClick={() => document.getElementById('rooms')?.scrollIntoView({ behavior: 'smooth' })}>
-            방 둘러보기
+            {t.btnRooms}
           </button>
           <button className="btn btn-outline" onClick={() => document.getElementById('security')?.scrollIntoView({ behavior: 'smooth' })}>
-            보안 시스템 확인
+            {t.btnSecurity}
           </button>
         </div>
       </div>
@@ -351,11 +304,13 @@ function Hero() {
 
 /* ─────────── Contact Bar ─────────── */
 function ContactBar() {
+  const { lang } = useLanguage()
+  const t = translations[lang].contact
   return (
     <div className="contact-bar">
       <a href="tel:0507-1492-5963" className="contact-bar-item">
         <Phone className="contact-bar-icon" size={22} />
-        <span className="contact-bar-text">전화 문의</span>
+        <span className="contact-bar-text">{t.phone}</span>
       </a>
       <a
         href="https://open.kakao.com/me/firsthousegunpo"
@@ -364,7 +319,7 @@ function ContactBar() {
         className="contact-bar-item"
       >
         <MessageCircle className="contact-bar-icon" size={22} />
-        <span className="contact-bar-text">카카오톡</span>
+        <span className="contact-bar-text">{t.kakao}</span>
       </a>
       <a
         href="https://naver.me/xtgBWNNn"
@@ -373,18 +328,20 @@ function ContactBar() {
         className="contact-bar-item"
       >
         <MapPin className="contact-bar-icon" size={22} />
-        <span className="contact-bar-text">네이버지도</span>
+        <span className="contact-bar-text">{t.naverMap}</span>
       </a>
     </div>
   )
 }
 
 /* ─────────── Room Detail Modal ─────────── */
-function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' | 'inside'; onClose: () => void }) {
+function RoomDetailModal({ room, view, allRooms, onClose }: { room: Room; view: 'outside' | 'inside'; allRooms: Room[]; onClose: () => void }) {
   const [activeRoom, setActiveRoom] = useState<Room>(room)
   const [activeView, setActiveView] = useState<'outside' | 'inside'>(view)
   const data = activeRoom.views[activeView]
   const isInside = activeView === 'inside'
+  const { lang } = useLanguage()
+  const t = translations[lang].modal
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -396,18 +353,23 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
     }
   }, [onClose])
 
+  useEffect(() => {
+    setActiveRoom(room)
+    setActiveView(view)
+  }, [room, view])
+
   return (
     <div className="room-detail-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose() }}>
       <div className="room-detail-modal">
         {/* Left: text content */}
         <div className="room-detail-content">
           <div className="room-detail-top-bar">
-            <button className="room-detail-close" onClick={onClose} aria-label="닫기">✕</button>
+            <button className="room-detail-close" onClick={onClose} aria-label={t.close}>✕</button>
           </div>
 
           {/* Class tabs */}
           <div className="room-detail-class-tabs">
-            {rooms.map((r) => (
+            {allRooms.map((r) => (
               <button
                 key={r.id}
                 className={`room-detail-class-tab ${activeRoom.id === r.id ? 'active' : ''}`}
@@ -423,7 +385,7 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
             <div className="room-detail-badges">
               <span className="room-detail-view-badge" style={{ background: activeRoom.color }}>{data.viewLabel}</span>
             </div>
-            <span className="room-detail-price" style={{ color: activeRoom.color }}>{data.price}<span className="room-detail-price-unit"> / 월</span></span>
+            <span className="room-detail-price" style={{ color: activeRoom.color }}>{data.price}<span className="room-detail-price-unit"> {t.priceUnit}</span></span>
           </div>
 
           <h2 className="room-detail-title">
@@ -432,7 +394,7 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
           <p className="room-detail-desc">{data.desc}</p>
 
           <div className="room-detail-features">
-            <h3 className="room-detail-features-title">주요 특징</h3>
+            <h3 className="room-detail-features-title">{t.keyFeatures}</h3>
             <div className="room-detail-feature-list">
               {data.features.map((f) => (
                 <div key={f} className="room-detail-feature-item">
@@ -450,10 +412,10 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
               style={{ background: activeRoom.color }}
               onClick={onClose}
             >
-              입주문의하기
+              {t.inquireBtn}
             </Link>
             <a href="tel:0507-1492-5963" className="btn-call-large">
-              📞 전화문의
+              {t.callBtn}
             </a>
           </div>
         </div>
@@ -467,13 +429,13 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
             <button
               className={`view-switch modal-view-switch ${isInside ? 'on' : ''}`}
               onClick={() => setActiveView(isInside ? 'outside' : 'inside')}
-              aria-label="창형 전환"
+              aria-label={t.viewSwitch}
             >
               <span className="view-switch-track" style={{ background: isInside ? activeRoom.color : 'rgba(255,255,255,0.3)' }}>
                 <span className="view-switch-knob" />
               </span>
               <span className="view-switch-text" style={{ color: 'rgba(255,255,255,0.85)' }}>
-                {isInside ? '내창' : '외창'}
+                {isInside ? t.inside : t.outside}
               </span>
             </button>
           </div>
@@ -503,20 +465,21 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
 function RoomViewCard({ room, view, onDetailClick, onViewToggle }: { room: Room; view: 'outside' | 'inside'; onDetailClick: () => void; onViewToggle: () => void }) {
   const data = room.views[view]
   const isInside = view === 'inside'
+  const { lang } = useLanguage()
+  const t = translations[lang].rooms
   return (
     <div className="room-card">
-      {/* View toggle bar above image */}
       <div className="view-toggle-bar" onClick={(e) => e.stopPropagation()}>
         <span className="view-toggle-label">{data.viewLabel}</span>
         <button
           className={`view-switch ${isInside ? 'on' : ''}`}
           onClick={onViewToggle}
-          aria-label="창형 전환"
+          aria-label={t.viewSwitch}
         >
           <span className="view-switch-track" style={{ background: isInside ? room.color : '#cbd5e0' }}>
             <span className="view-switch-knob" />
           </span>
-          <span className="view-switch-text">{isInside ? '내창' : '외창'}</span>
+          <span className="view-switch-text">{isInside ? t.inside : t.outside}</span>
         </button>
       </div>
 
@@ -556,14 +519,14 @@ function RoomViewCard({ room, view, onDetailClick, onViewToggle }: { room: Room;
             className="btn-enquire"
             style={{ background: room.color }}
           >
-            입주문의
+            {t.inquireBtn}
           </Link>
           <button
             className="btn-detail"
             onClick={onDetailClick}
             style={{ borderColor: room.color, color: room.color }}
           >
-            더보기
+            {t.detailBtn}
           </button>
         </div>
       </div>
@@ -576,22 +539,21 @@ function Rooms() {
   const [activeTab, setActiveTab] = useState<string>('premium')
   const [activeView, setActiveView] = useState<'outside' | 'inside'>('outside')
   const [detailModal, setDetailModal] = useState<{ room: Room; view: 'outside' | 'inside' } | null>(null)
-
+  const { lang } = useLanguage()
+  const t = translations[lang].rooms
+  const rooms = buildRooms(translations[lang].rooms.data)
   const currentRoom = rooms.find((r) => r.id === activeTab)!
 
   return (
     <section id="rooms" className="section rooms-section">
       <div className="section-inner">
         <div className="section-header">
-          <p className="section-label">ROOMS</p>
-          <h2 className="section-title">객실 안내</h2>
-          <p className="section-sub">
-            당신의 취향과 필요에 맞춘 다양한 프리미엄 룸 라인업
-          </p>
+          <p className="section-label">{t.sectionLabel}</p>
+          <h2 className="section-title">{t.sectionTitle}</h2>
+          <p className="section-sub">{t.sectionSub}</p>
         </div>
 
         <div className="rooms-layout">
-          {/* Left: tabs + features */}
           <div className="rooms-sidebar">
             <div className="rooms-tabs">
               {rooms.map((r) => (
@@ -606,19 +568,18 @@ function Rooms() {
               ))}
             </div>
             <div className="room-all-features">
-              <span className="room-all-features-title">All room features:</span>
+              <span className="room-all-features-title">{t.allFeatures}</span>
               <ul className="room-all-features-list">
-                <li><Refrigerator className="room-feature-icon" />개인 냉장고</li>
-                <li><Zap className="room-feature-icon" />가스·전기·수도세<br />무료</li>
-                <li><Wifi className="room-feature-icon" />와이파이</li>
-                <li><Monitor className="room-feature-icon" />책상·의자</li>
-                <li><Shirt className="room-feature-icon" />벽걸이 행거</li>
-                <li><Archive className="room-feature-icon" />선반</li>
+                <li><Refrigerator className="room-feature-icon" />{t.features[0]}</li>
+                <li><Zap className="room-feature-icon" style={{ whiteSpace: 'pre-line' } as React.CSSProperties} />{t.features[1]}</li>
+                <li><Wifi className="room-feature-icon" />{t.features[2]}</li>
+                <li><Monitor className="room-feature-icon" />{t.features[3]}</li>
+                <li><Shirt className="room-feature-icon" />{t.features[4]}</li>
+                <li><Archive className="room-feature-icon" />{t.features[5]}</li>
               </ul>
             </div>
           </div>
 
-          {/* Right: card */}
           <div className="rooms-cards-wrap">
             <div className="rooms-cards">
               <RoomViewCard
@@ -637,6 +598,7 @@ function Rooms() {
         <RoomDetailModal
           room={detailModal.room}
           view={detailModal.view}
+          allRooms={rooms}
           onClose={() => setDetailModal(null)}
         />
       )}
@@ -646,15 +608,16 @@ function Rooms() {
 
 /* ─────────── Facilities ─────────── */
 function Facilities() {
+  const { lang } = useLanguage()
+  const t = translations[lang].facilities
+  const facilities = t.items.map((item, i) => ({ ...item, img: facilityImgs[i] }))
   return (
     <section id="facilities" className="section facilities-section">
       <div className="section-inner">
         <div className="section-header">
-          <p className="section-label">FACILITIES</p>
-          <h2 className="section-title">프리미엄 공용 시설</h2>
-          <p className="section-sub">
-            프라이빗 시네마룸부터 스타벅스 원두까지, 일상의 급을 높여드립니다
-          </p>
+          <p className="section-label">{t.sectionLabel}</p>
+          <h2 className="section-title">{t.sectionTitle}</h2>
+          <p className="section-sub">{t.sectionSub}</p>
         </div>
         <div className="facilities-grid">
           {facilities.map((f) => (
@@ -662,7 +625,7 @@ function Facilities() {
               <div className="facility-image-wrap">
                 <img src={f.img} alt={f.name} className="facility-image" loading="lazy" decoding="async" />
                 <div className="facility-overlay">
-                  <p className="facility-desc">{f.desc}</p>
+                  <p className="facility-desc" style={{ whiteSpace: 'pre-line' }}>{f.desc}</p>
                 </div>
               </div>
               <p className="facility-name">{f.name}</p>
@@ -676,26 +639,20 @@ function Facilities() {
 
 /* ─────────── Security ─────────── */
 function Security() {
-  const items = [
-    { icon: '🔒', title: '2중 보안', desc: '현관 및 개별 룸 디지털 도어락' },
-    { icon: '📹', title: '24/7 CCTV', desc: '16채널 풀 HD CCTV 상시 가동' },
-    { icon: '🦠', title: '세스코 케어', desc: '바이러스 케어 및 정기 방역' },
-    { icon: '🚒', title: '안전 시설', desc: '스프링클러·화재 감지기 완비' },
-  ]
+  const { lang } = useLanguage()
+  const t = translations[lang].security
   return (
     <section id="security" className="section security-section">
       <div className="section-inner">
         <div className="security-card">
           <div className="security-text">
-            <p className="section-label">SECURITY</p>
+            <p className="section-label">{t.sectionLabel}</p>
             <h2 className="section-title" style={{ textAlign: 'left' }}>
-              철저한 2중<br />보안 시스템
+              {t.title1}<br />{t.title2}
             </h2>
-            <p className="security-sub">
-              2030 여성 입실자분들의 안전한 생활을 최우선으로 합니다.
-            </p>
+            <p className="security-sub">{t.sub}</p>
             <ul className="security-list">
-              {items.map((item) => (
+              {t.items.map((item) => (
                 <li key={item.title} className="security-item">
                   <span className="security-icon">{item.icon}</span>
                   <div>
@@ -706,11 +663,11 @@ function Security() {
               ))}
             </ul>
             <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-              입실 문의하기
+              {t.inquireBtn}
             </a>
           </div>
           <div className="security-img-wrap">
-            <img src={security} alt="보안 시스템" className="security-img" loading="lazy" decoding="async" />
+            <img src={security} alt="Security System" className="security-img" loading="lazy" decoding="async" />
           </div>
         </div>
       </div>
@@ -722,11 +679,12 @@ function Security() {
 const PLACE_LAT = 37.353197
 const PLACE_LNG = 126.947693
 
-function NaverMap() {
+function NaverMap({ infoName, infoAddr, infoWalk, failedText, fallbackBtn }: {
+  infoName: string; infoAddr: string; infoWalk: string; failedText: string; fallbackBtn: string
+}) {
   const [mapFailed, setMapFailed] = useState(false)
 
   useEffect(() => {
-    // NCP 인증 실패 콜백 (docs: window.navermap_authFailure)
     ;(window as Window & { navermap_authFailure?: () => void }).navermap_authFailure = () => {
       setMapFailed(true)
     }
@@ -746,25 +704,15 @@ function NaverMap() {
       }
       clearInterval(timer)
 
-      // 지도 생성 (docs: new naver.maps.Map('map', mapOptions))
       const center = new nv.maps.LatLng(PLACE_LAT, PLACE_LNG)
-      const map = new nv.maps.Map('naver-map', {
-        center,
-        zoom: 17,
-      })
+      const map = new nv.maps.Map('naver-map', { center, zoom: 17 })
+      const marker = new nv.maps.Marker({ position: center, map })
 
-      // 마커 생성 (docs: new naver.maps.Marker({ position, map }))
-      const marker = new nv.maps.Marker({
-        position: center,
-        map,
-      })
-
-      // 정보창 생성 (docs: new naver.maps.InfoWindow({ content }))
       const contentString = [
         '<div style="padding:12px 16px;font-family:\'Noto Sans KR\',sans-serif;min-width:160px;">',
-        '<p style="font-size:0.88rem;font-weight:800;color:#2D3748;margin:0 0 5px;">처음하우스 군포역점</p>',
-        '<p style="font-size:0.78rem;color:#718096;margin:0;">경기도 군포역 1길 32 4층</p>',
-        '<p style="font-size:0.78rem;color:#FF7E67;font-weight:700;margin:4px 0 0;">🚉 군포역 1번 출구 도보 1분</p>',
+        `<p style="font-size:0.88rem;font-weight:800;color:#2D3748;margin:0 0 5px;">${infoName}</p>`,
+        `<p style="font-size:0.78rem;color:#718096;margin:0;">${infoAddr}</p>`,
+        `<p style="font-size:0.78rem;color:#FF7E67;font-weight:700;margin:4px 0 0;">${infoWalk}</p>`,
         '</div>',
       ].join('')
 
@@ -776,7 +724,6 @@ function NaverMap() {
         anchorSize: new nv.maps.Size(10, 10),
       })
 
-      // 마커 클릭 시 정보창 토글 (docs 표준 패턴)
       nv.maps.Event.addListener(marker, 'click', function () {
         if (infoWindow.getMap()) {
           infoWindow.close()
@@ -785,7 +732,6 @@ function NaverMap() {
         }
       })
 
-      // 최초 로드 시 정보창 열기
       infoWindow.open(map, marker)
     }
 
@@ -793,13 +739,13 @@ function NaverMap() {
     initMap()
 
     return () => clearInterval(timer)
-  }, [])
+  }, [infoName, infoAddr, infoWalk])
 
   if (mapFailed) {
     return (
       <div className="map-fallback">
         <span className="map-fallback-icon">🗺</span>
-        <p className="map-fallback-text">지도를 불러올 수 없습니다</p>
+        <p className="map-fallback-text">{failedText}</p>
         <a
           href="https://map.naver.com/p/entry/place/1846291527"
           target="_blank"
@@ -807,7 +753,7 @@ function NaverMap() {
           className="btn btn-naver"
           style={{ fontSize: '0.88rem', padding: '10px 22px' }}
         >
-          네이버 지도에서 보기
+          {fallbackBtn}
         </a>
       </div>
     )
@@ -817,13 +763,16 @@ function NaverMap() {
 }
 
 function Location() {
+  const { lang } = useLanguage()
+  const t = translations[lang].location
+  const nearby = t.nearby.map((n, i) => ({ ...n, icon: nearbyIcons[i] }))
   return (
     <section id="location" className="section location-section">
       <div className="section-inner">
         <div className="section-header">
-          <p className="section-label">LOCATION</p>
-          <h2 className="section-title">오시는 길</h2>
-          <p className="section-sub">군포역 1번 출구 도보 1분, 초역세권</p>
+          <p className="section-label">{t.sectionLabel}</p>
+          <h2 className="section-title">{t.sectionTitle}</h2>
+          <p className="section-sub">{t.sectionSub}</p>
         </div>
 
         <div className="location-grid">
@@ -831,15 +780,15 @@ function Location() {
             <div className="contact-item">
               <div className="contact-icon"><MapPin size={22} /></div>
               <div>
-                <p className="contact-label">주소</p>
-                <p className="contact-value">경기도 군포역 1길 32 4층</p>
-                <p className="contact-hint">군포역 1번 출구에서 나오자마자 보이는 건물, 도보 약 1분</p>
+                <p className="contact-label">{t.addressLabel}</p>
+                <p className="contact-value">{t.addressValue}</p>
+                <p className="contact-hint">{t.addressHint}</p>
               </div>
             </div>
             <div className="contact-item">
               <div className="contact-icon"><Phone size={22} /></div>
               <div>
-                <p className="contact-label">전화번호</p>
+                <p className="contact-label">{t.phoneLabel}</p>
                 <a href="tel:0507-1492-5963" className="contact-value contact-link">
                   0507-1492-5963
                 </a>
@@ -848,16 +797,16 @@ function Location() {
             <div className="contact-item">
               <div className="contact-icon"><MessageCircle size={22} /></div>
               <div>
-                <p className="contact-label">온라인 문의</p>
+                <p className="contact-label">{t.onlineLabel}</p>
                 <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer"
                   className="contact-value contact-link">
-                  네이버 톡톡으로 문의하기 →
+                  {t.naverTalkLink}
                 </a>
               </div>
             </div>
 
             <div className="nearby-list">
-              <p className="nearby-title">주변 시설</p>
+              <p className="nearby-title">{t.nearbyTitle}</p>
               {nearby.map((n) => (
                 <div key={n.name} className="nearby-item">
                   <span className="nearby-icon">{n.icon}</span>
@@ -870,9 +819,9 @@ function Location() {
             </div>
 
             <div className="contact-buttons">
-              <a href="tel:0507-1492-5963" className="btn btn-primary">전화 문의</a>
+              <a href="tel:0507-1492-5963" className="btn btn-primary">{t.phoneBtn}</a>
               <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer" className="btn btn-naver">
-                네이버 톡톡 문의
+                {t.naverBtn}
               </a>
             </div>
           </div>
@@ -885,9 +834,15 @@ function Location() {
               className="naver-map-btn"
             >
               <span className="naver-n">N</span>
-              NAVER 지도로 길찾기
+              {t.naverMapBtn}
             </a>
-            <NaverMap />
+            <NaverMap
+              infoName={t.mapInfoName}
+              infoAddr={t.mapInfoAddr}
+              infoWalk={t.mapInfoWalk}
+              failedText={t.mapFailed}
+              fallbackBtn={t.mapFallbackBtn}
+            />
           </div>
         </div>
       </div>
@@ -897,28 +852,30 @@ function Location() {
 
 /* ─────────── Footer ─────────── */
 function Footer() {
+  const { lang } = useLanguage()
+  const t = translations[lang].footer
   return (
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-logo">
-          <span className="logo-first">처음</span>하우스 군포역점
+          <span className="logo-first">{t.logoFirst}</span>{t.logoRest}
         </div>
-        <p className="footer-address">경기도 군포역 1길 32 4층 | 0507-1492-5963</p>
+        <p className="footer-address">{t.address}</p>
         <div className="footer-links">
-          <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer">네이버 톡톡</a>
+          <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer">{t.naverTalk}</a>
           <span>|</span>
-          <a href="https://open.kakao.com/me/firsthousegunpo" target="_blank" rel="noopener noreferrer">카카오톡</a>
+          <a href="https://open.kakao.com/me/firsthousegunpo" target="_blank" rel="noopener noreferrer">{t.kakao}</a>
           <span>|</span>
-          <Link to="/inquiry">입실<br />문의</Link>
+          <Link to="/inquiry" style={{ whiteSpace: 'pre-line' }}>{t.inquiry}</Link>
           <span>|</span>
           <Link to="/faq">FAQ</Link>
           <span>|</span>
-          <Link to="/about">소개</Link>
+          <Link to="/about">{t.about}</Link>
         </div>
         <div className="footer-legal">
-          <Link to="/privacy">개인정보처리방침</Link>
+          <Link to="/privacy">{t.privacy}</Link>
         </div>
-        <p className="footer-copy">© 2025 처음하우스 군포역점. All rights reserved.</p>
+        <p className="footer-copy">{t.copy}</p>
       </div>
     </footer>
   )
