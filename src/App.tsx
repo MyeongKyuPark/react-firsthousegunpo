@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom'
 import './App.css'
 
@@ -65,10 +65,10 @@ import { Refrigerator, Wifi, Zap, Monitor, Shirt, Archive, Phone, MessageCircle,
 // Security
 import security from './assets/security/security.png'
 
-import InquiryPage from './pages/InquiryPage'
-import FaqPage from './pages/FaqPage'
-import AboutPage from './pages/AboutPage'
-import PrivacyPage from './pages/PrivacyPage'
+const InquiryPage = lazy(() => import('./pages/InquiryPage'))
+const FaqPage = lazy(() => import('./pages/FaqPage'))
+const AboutPage = lazy(() => import('./pages/AboutPage'))
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
 
 const NAVER_TALK = 'https://talk.naver.com/W6H2WZ6'
 
@@ -488,7 +488,7 @@ function RoomDetailModal({ room, view, onClose }: { room: Room; view: 'outside' 
             >
               {data.imgs.map((img, i) => (
                 <SwiperSlide key={i}>
-                  <img src={img} alt={`${room.label} ${data.viewLabel} ${i + 1}`} />
+                  <img src={img} alt={`${room.label} ${data.viewLabel} ${i + 1}`} loading="lazy" decoding="async" />
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -531,7 +531,7 @@ function RoomViewCard({ room, view, onDetailClick, onViewToggle }: { room: Room;
         >
           {data.imgs.map((img, i) => (
             <SwiperSlide key={i}>
-              <img src={img} alt={`${room.label} ${data.viewLabel} ${i + 1}`} className="room-card-image" />
+              <img src={img} alt={`${room.label} ${data.viewLabel} ${i + 1}`} className="room-card-image" loading="lazy" decoding="async" />
               <span className="room-card-slide-label" style={{ background: room.color }}>{data.viewLabel}</span>
             </SwiperSlide>
           ))}
@@ -660,7 +660,7 @@ function Facilities() {
           {facilities.map((f) => (
             <div key={f.name} className="facility-card">
               <div className="facility-image-wrap">
-                <img src={f.img} alt={f.name} className="facility-image" />
+                <img src={f.img} alt={f.name} className="facility-image" loading="lazy" decoding="async" />
                 <div className="facility-overlay">
                   <p className="facility-desc">{f.desc}</p>
                 </div>
@@ -710,7 +710,7 @@ function Security() {
             </a>
           </div>
           <div className="security-img-wrap">
-            <img src={security} alt="보안 시스템" className="security-img" />
+            <img src={security} alt="보안 시스템" className="security-img" loading="lazy" decoding="async" />
           </div>
         </div>
       </div>
@@ -943,13 +943,15 @@ function App() {
   return (
     <div className="app">
       <Header />
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/inquiry" element={<InquiryPage />} />
-        <Route path="/faq" element={<FaqPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-      </Routes>
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/inquiry" element={<InquiryPage />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+        </Routes>
+      </Suspense>
       <Footer />
     </div>
   )
