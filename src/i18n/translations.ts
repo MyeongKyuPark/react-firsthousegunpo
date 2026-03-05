@@ -206,6 +206,8 @@ export const translations = {
       ],
       periodOptions: ['1주 단기', '2주 단기', '1개월', '2개월', '3개월', '6개월', '장기'],
       submitBtn: '문의 보내기',
+      submitError: '전송에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+      submitNetworkError: '네트워크 오류가 발생했습니다. 인터넷 연결을 확인해 주세요.',
     },
     faq: {
       label: 'FAQ',
@@ -315,9 +317,9 @@ export const translations = {
           heading: '2. 수집하는 개인정보 항목',
           content: '당사는 다음과 같은 개인정보를 수집할 수 있습니다.',
           list: [
-            '<strong>필수 항목:</strong> 이름, 연락처(전화번호)',
-            '<strong>선택 항목:</strong> 입실 예정일, 희망 방 형태, 입주 기간, 문의사항',
-            '<strong>자동 수집:</strong> IP 주소, 브라우저 유형, 방문 페이지, 쿠키 정보',
+            { label: '필수 항목', value: '이름, 연락처(전화번호)' },
+            { label: '선택 항목', value: '입실 예정일, 희망 방 형태, 입주 기간, 문의사항' },
+            { label: '자동 수집', value: 'IP 주소, 브라우저 유형, 방문 페이지, 쿠키 정보' },
           ],
         },
         {
@@ -332,20 +334,20 @@ export const translations = {
         },
         {
           heading: '5. 제3자 광고 서비스 (Google AdSense)',
-          content: '당사 웹사이트는 Google Inc.가 제공하는 광고 서비스인 <strong>Google AdSense</strong>를 사용합니다. Google AdSense는 쿠키를 사용하여 이용자에게 관심사 기반 광고를 제공합니다.',
+          content: '당사 웹사이트는 Google Inc.가 제공하는 광고 서비스인 Google AdSense를 사용합니다. Google AdSense는 쿠키를 사용하여 이용자에게 관심사 기반 광고를 제공합니다.',
           list: [
             'Google은 쿠키를 통해 이용자의 이전 방문 기록을 바탕으로 광고를 표시합니다.',
-            '이용자는 <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google 광고 설정</a>에서 개인화 광고를 비활성화할 수 있습니다.',
-            'Google의 개인정보 처리방침: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">https://policies.google.com/privacy</a>',
+            { prefix: '이용자는 ', href: 'https://www.google.com/settings/ads', linkText: 'Google 광고 설정', suffix: '에서 개인화 광고를 비활성화할 수 있습니다.' },
+            { prefix: 'Google의 개인정보 처리방침: ', href: 'https://policies.google.com/privacy', linkText: 'https://policies.google.com/privacy' },
           ],
         },
         {
           heading: '6. 쿠키(Cookie) 정책',
           content: '당사 웹사이트는 서비스 향상 및 광고 제공을 위해 쿠키를 사용합니다. 쿠키는 이용자의 컴퓨터에 저장되는 소규모 텍스트 파일입니다.',
           list: [
-            '<strong>필수 쿠키:</strong> 웹사이트의 기본 기능 유지에 필요',
-            '<strong>분석 쿠키:</strong> 방문자 통계 수집 (Google Analytics)',
-            '<strong>광고 쿠키:</strong> 관심사 기반 광고 제공 (Google AdSense)',
+            { label: '필수 쿠키', value: '웹사이트의 기본 기능 유지에 필요' },
+            { label: '분석 쿠키', value: '방문자 통계 수집 (Google Analytics)' },
+            { label: '광고 쿠키', value: '관심사 기반 광고 제공 (Google AdSense)' },
           ],
           footer: '브라우저 설정을 통해 쿠키 저장을 거부할 수 있으나, 일부 서비스 이용에 제한이 생길 수 있습니다.',
         },
@@ -364,10 +366,10 @@ export const translations = {
           heading: '9. 개인정보 보호 책임자',
           content: '',
           list: [
-            '<strong>업체명:</strong> 처음하우스 군포역점',
-            '<strong>주소:</strong> 경기도 군포시 군포역 1길 32 4층',
-            '<strong>전화:</strong> 0507-1492-5963',
-            '<strong>이메일:</strong> firsthousegunpo@gmail.com',
+            { label: '업체명', value: '처음하우스 군포역점' },
+            { label: '주소', value: '경기도 군포시 군포역 1길 32 4층' },
+            { label: '전화', value: '0507-1492-5963' },
+            { label: '이메일', value: 'firsthousegunpo@gmail.com' },
           ],
         },
         {
@@ -584,6 +586,8 @@ export const translations = {
       ],
       periodOptions: ['1 Week', '2 Weeks', '1 Month', '2 Months', '3 Months', '6 Months', 'Long-term'],
       submitBtn: 'Send Inquiry',
+      submitError: 'Submission failed. Please try again later.',
+      submitNetworkError: 'A network error occurred. Please check your connection.',
     },
     faq: {
       label: 'FAQ',
@@ -693,9 +697,9 @@ export const translations = {
           heading: '2. Information We Collect',
           content: 'We may collect the following personal information.',
           list: [
-            '<strong>Required:</strong> Name, phone number',
-            '<strong>Optional:</strong> Expected move-in date, preferred room type, stay duration, inquiries',
-            '<strong>Auto-collected:</strong> IP address, browser type, visited pages, cookie data',
+            { label: 'Required', value: 'Name, phone number' },
+            { label: 'Optional', value: 'Expected move-in date, preferred room type, stay duration, inquiries' },
+            { label: 'Auto-collected', value: 'IP address, browser type, visited pages, cookie data' },
           ],
         },
         {
@@ -718,20 +722,20 @@ export const translations = {
         },
         {
           heading: '5. Third-Party Ad Services (Google AdSense)',
-          content: 'Our website uses <strong>Google AdSense</strong>, an advertising service provided by Google Inc. Google AdSense uses cookies to deliver interest-based ads to users.',
+          content: 'Our website uses Google AdSense, an advertising service provided by Google Inc. Google AdSense uses cookies to deliver interest-based ads to users.',
           list: [
             'Google displays ads based on your previous visits to this and other websites via cookies.',
-            'You can opt out of personalized ads at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google Ad Settings</a>.',
-            'Google\'s Privacy Policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">https://policies.google.com/privacy</a>',
+            { prefix: 'You can opt out of personalized ads at ', href: 'https://www.google.com/settings/ads', linkText: 'Google Ad Settings', suffix: '.' },
+            { prefix: "Google's Privacy Policy: ", href: 'https://policies.google.com/privacy', linkText: 'https://policies.google.com/privacy' },
           ],
         },
         {
           heading: '6. Cookie Policy',
           content: 'Our website uses cookies to improve services and deliver ads. Cookies are small text files stored on your device.',
           list: [
-            '<strong>Essential cookies:</strong> Required to maintain basic website functionality',
-            '<strong>Analytics cookies:</strong> Visitor statistics (Google Analytics)',
-            '<strong>Ad cookies:</strong> Interest-based ads (Google AdSense)',
+            { label: 'Essential cookies', value: 'Required to maintain basic website functionality' },
+            { label: 'Analytics cookies', value: 'Visitor statistics (Google Analytics)' },
+            { label: 'Ad cookies', value: 'Interest-based ads (Google AdSense)' },
           ],
           footer: 'You may disable cookies via browser settings, but some features may be limited.',
         },
@@ -757,10 +761,10 @@ export const translations = {
           heading: '9. Privacy Officer',
           content: '',
           list: [
-            '<strong>Business Name:</strong> Cheoeum House Gunpo Station',
-            '<strong>Address:</strong> 4F, 32 Gunpo Station 1-gil, Gunpo-si, Gyeonggi-do',
-            '<strong>Phone:</strong> 0507-1492-5963',
-            '<strong>Email:</strong> firsthousegunpo@gmail.com',
+            { label: 'Business Name', value: 'Cheoeum House Gunpo Station' },
+            { label: 'Address', value: '4F, 32 Gunpo Station 1-gil, Gunpo-si, Gyeonggi-do' },
+            { label: 'Phone', value: '0507-1492-5963' },
+            { label: 'Email', value: 'firsthousegunpo@gmail.com' },
           ],
         },
         {

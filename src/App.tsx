@@ -242,6 +242,18 @@ function Header() {
         <Link to="/about" className="nav-link" onClick={() => setMenuOpen(false)}>
           {t.nav.about}
         </Link>
+        <div className="lang-switch nav-lang-switch">
+          <button
+            className={lang === 'ko' ? 'active' : ''}
+            onClick={() => setLang('ko')}
+            aria-label="한국어"
+          >KO</button>
+          <button
+            className={lang === 'en' ? 'active' : ''}
+            onClick={() => setLang('en')}
+            aria-label="English"
+          >EN</button>
+        </div>
         <a href={NAVER_TALK} target="_blank" rel="noopener noreferrer" className="nav-cta">
           {t.nav.naverTalk}
         </a>

@@ -3,9 +3,12 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { translations } from '../i18n/translations'
 
 const NAVER_TALK = 'https://talk.naver.com/W6H2WZ6'
+const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID as string
 
 export default function InquiryPage() {
   const [submitted, setSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -23,19 +26,25 @@ export default function InquiryPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setSubmitError('')
+    setIsSubmitting(true)
     const form = e.currentTarget
     const data = new FormData(form)
     try {
-      const res = await fetch('https://formspree.io/f/xeelkyby', {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: 'POST',
         body: data,
         headers: { Accept: 'application/json' },
       })
       if (res.ok) {
         setSubmitted(true)
+      } else {
+        setSubmitError(t.submitError)
       }
     } catch {
-      setSubmitted(true)
+      setSubmitError(t.submitNetworkError)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -181,8 +190,11 @@ export default function InquiryPage() {
                 />
               </div>
 
-              <button type="submit" className="btn btn-primary form-submit-btn">
-                {t.submitBtn}
+              {submitError && (
+                <p className="form-error-msg">{submitError}</p>
+              )}
+              <button type="submit" className="btn btn-primary form-submit-btn" disabled={isSubmitting}>
+                {isSubmitting ? '...' : t.submitBtn}
               </button>
             </form>
           )}
