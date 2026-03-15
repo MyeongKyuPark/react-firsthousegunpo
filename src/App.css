@@ -2277,7 +2277,6 @@ body {
   }
 
   .hero-title {
-    font-size: clamp(1.55rem, 6vw, 3rem);
     line-height: 1.25;
   }
 
@@ -2316,7 +2315,6 @@ body {
 
 @media (max-width: 480px) {
   .hero-title {
-    font-size: clamp(1.35rem, 5.5vw, 2rem);
     line-height: 1.3;
   }
 
